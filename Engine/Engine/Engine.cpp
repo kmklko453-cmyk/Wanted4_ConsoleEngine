@@ -43,11 +43,11 @@ namespace Wanted
 			//timeGetTime(); 밀리초 단위 검색 1/1000 = 0.001초 
 
 			//현재 시간 구하기
-			QueryPerformanceCounter(&time);
+			QueryPerformanceCounter(&time); //windows함수 h/w 시간 사용 천만분의 1초
 			currentTime = time.QuadPart;
 
 
-			// 프레임 시간 계산
+			// 프레임 시간 계산, 정밀도로 나눔
 			float deltaTime
 				= static_cast<float>(currentTime - previousTime);
 
