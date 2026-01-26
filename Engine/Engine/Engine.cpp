@@ -12,6 +12,12 @@ namespace Wanted
 
 	Engine::~Engine()
 	{
+		//메인 레벨 제거
+		if (mainLevel)
+		{
+			delete mainLevel;
+			mainLevel = nullptr;
+		}
 	}
 
 	void Engine::Run()
@@ -149,11 +155,14 @@ namespace Wanted
 		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
 		//ESC키 눌리면 종료
-		//if (GetKeyDown(VK_ESCAPE))
-		//{
-		//	QuitEngine();
-		//}
+		if (GetKeyDown(VK_ESCAPE))
+		{
+			QuitEngine();
+		}
 
+
+		//레벨에 이벤트 흘리기
+		//예외처리
 		if (!mainLevel)
 		{
 			std::cout << "Error : Engine::Tick(). mainLevel is empty\n";
