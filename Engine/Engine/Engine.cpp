@@ -1,4 +1,6 @@
 #include "Engine.h"
+#include "Level/Level.h"
+
 #include <iostream>
 #include <Windows.h>
 
@@ -40,7 +42,7 @@ namespace Wanted
 		//! -> Not -> bool값 뒤집기 
 		while (!isQuit)
 		{
-			//timeGetTime(); 밀리초 단위 검색 1/1000 = 0.001초 
+			//TimeGetTime(); 밀리초 단위 검색 1/1000 = 0.001초 
 
 			//현재 시간 구하기
 			QueryPerformanceCounter(&time); //windows함수 h/w 시간 사용 천만분의 1초
@@ -60,6 +62,7 @@ namespace Wanted
 				ProcessInput();
 
 				//프레임 처리
+				BeginPlay();
 				Tick(deltaTime);
 				Draw();
 
@@ -96,9 +99,26 @@ namespace Wanted
 		return !keyStates[keyCode].isKeyDown
 			&& keyStates[keyCode].wasKeyDown;
 	}
+
 	bool Engine::GetKey(int keyCode)
 	{
 		return keyStates[keyCode].isKeyDown;
+	}
+
+	void Engine::SetNewLevel(Level* newLevel)
+	{
+		//기존 레벨 있는지 확인
+		//있으면 기존 레벨 제거
+		//Todo: 임시 코드 레벨 전환할 때는 바로 제거하면 안됨
+		if (mainLevel)
+		{
+			delete mainLevel;
+			mainLevel = nullptr;
+		}
+
+		//레벨 설정
+		mainLevel = newLevel;
+
 	}
 	void Engine::ProcessInput()
 	{
@@ -111,19 +131,43 @@ namespace Wanted
 		}
 		// 호출될 때 키가 중단 또는 작동 되었는지 여부와 GetAsyncKeyState에 대한 이전 이후 키가 눌렸는지 확인
 	}
+		void Engine::BeginPlay()
+		{
+			//레벨이 있으면 이벤트 전달
+			if (!mainLevel)
+			{
+				std::cout << "mainLevel is empty.\n";
+				return;
+			}
+			mainLevel->BeginPlay();
+
+		}
 	void Engine::Tick(float deltaTime)
 	{
-		std::cout
-			<< "DeltaTime: " << deltaTime
-			<< ", FPS: " << (1.0f / deltaTime) << "\n";
+		//std::cout
+		//	<< "DeltaTime: " << deltaTime
+		//	<< ", FPS: " << (1.0f / deltaTime) << "\n";
 
 		//ESC키 눌리면 종료
-		if (GetKeyDown(VK_ESCAPE))
+		//if (GetKeyDown(VK_ESCAPE))
+		//{
+		//	QuitEngine();
+		//}
+
+		if (!mainLevel)
 		{
-			QuitEngine();
+			std::cout << "Error : Engine::Tick(). mainLevel is empty\n";
+			return;
 		}
+		mainLevel->Tick(deltaTime);
 	}
 	void Engine::Draw()
 	{
+		if (!mainLevel)
+		{
+			std::cout << "Error : Engine::Draw(). mainLevel is empty\n";
+			return;
+		}
+		mainLevel->Draw();
 	}
 }

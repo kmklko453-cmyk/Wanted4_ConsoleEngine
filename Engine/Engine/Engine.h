@@ -34,9 +34,16 @@ namespace Wanted
 		// 현재 놀렸으면 반복 호출
 		bool GetKey(int keyCode);
 
+		// 새 레벨을 추가(설정 )하는 함수
+		void SetNewLevel(class Level* newLevel);
+
 	private:
 		//입력 처리 함수
 		void ProcessInput();
+
+		//게임 플레이 시작 함수
+		//unity 같은 경우 Start/Awake
+		void BeginPlay();
 
 		//업데이트 함수
 		void Tick(float deltaTime);
@@ -50,6 +57,10 @@ namespace Wanted
 
 		//키 상태 저장용 배열
 		KeyState keyStates[255] = {};
+
+		//메인 레벨
+		class Level* mainLevel = nullptr;
+
 
 	};
 
