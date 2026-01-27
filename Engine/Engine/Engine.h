@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Common/Common.h"
+
 namespace Wanted
 {
 
 	//Main game engine class
-	class Engine // 동작 행동
+	class WANTED_API Engine // 동작 행동
 	{
 		// 데이터 함수도 데이터로 쓸거임.
 		struct KeyState
