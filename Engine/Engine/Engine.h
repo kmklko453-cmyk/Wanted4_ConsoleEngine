@@ -9,7 +9,7 @@ namespace Wanted
 	class Input;
 
 	//Main game engine class
-	class WANTED_API Engine // 동작 행동
+	class WANTED_API Engine 
 	{
 	public:
 		Engine();
@@ -23,6 +23,9 @@ namespace Wanted
 
 		// 새 레벨을 추가(설정 )하는 함수
 		void SetNewLevel(class Level* newLevel);
+
+		//전역 접근 함수
+		static Engine& Get();
 
 	private:
 
@@ -46,6 +49,9 @@ namespace Wanted
 		//메인 레벨
 		class Level* mainLevel = nullptr;
 
+
+		//전역변수
+		static Engine* instance;
 
 	};
 

@@ -1,8 +1,8 @@
 #pragma once
-#include "Level.h"
+#include "Level/Level.h"
 #include "Common/Common.h"
 
-class WANTED_API TestLevel : public Wanted::Level
+class TestLevel : public Wanted::Level
 {
 public:
 	TestLevel();
