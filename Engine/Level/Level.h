@@ -1,6 +1,6 @@
 #pragma once
-#pragma warning(disable:4251)
-#include "Common/Common.h"
+
+#include "Common/RTTI.h"
 
 //STL (Standard Temlate Library- C++에서 기본 제공)
 //크기가 알아서 변경되는 동적 배열
@@ -12,8 +12,10 @@ namespace Wanted
 	class Actor;
 
 	//담당 임무: 레벨에 있는 모든 액터(물체) 관리
-	class WANTED_API Level
+	class WANTED_API Level :public RTTI
 	{
+		RTTI_DECLARATIONS(Level, RTTI)
+
 	public:
 		Level();
 		virtual ~Level();
