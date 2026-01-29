@@ -1,41 +1,14 @@
 #include <iostream>
 #include "Engine/Engine.h"
-//#include "Level/Level.h"
 #include "Level/TestLevel.h"
-#include "Actor/TestActor.h"
-//#include "Actor/Actor.h"
+
 
 using namespace Wanted;
 
 int main()
 {
-	//Wanted::Engine engine;
-	//engine.SetNewLevel(new TestLevel());
-	//engine.Run();
-
-	TestLevel* levle = new TestLevel();
-	Actor* actor = new TestActor();
-
-	TestActor* testActor = new TestActor();
-
-	//if (actor->Is(testActor))
-	//{
-	//	std::cout << "actor is TestActor type\n";
-	//}
-	//else
-	//{
-	//	std::cout << "actor is not TestActor type\n";
-	//}
-
-	//TestActor* testActor2 = dynamic_cast<TestActor*>(actor);
-	TestActor* testActor = actor->As<TestActor>();
-	if (testActor)
-	{
-		std::cout << "actor is TestActor type\n";
-	}
-	else
-	{
-		std::cout << "actor is not TestActor type\n";
-	}
+	Wanted::Engine engine;
+	engine.SetNewLevel(new TestLevel());
+	engine.Run();
 
 }

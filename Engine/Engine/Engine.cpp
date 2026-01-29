@@ -11,12 +11,28 @@ namespace Wanted
 	Engine* Engine::instance = nullptr;
 
 	Engine::Engine()
-	{	
+	{
 		//전역 변수 초기화
 		instance = this;
 
 		//입력 생성 관리자
 		input = new Input();
+
+		//설정 파일 로드
+		LoadSetting();
+
+		//커서 끄기.
+		CONSOLE_CURSOR_INFO info = {};
+		GetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
+
+		info.bVisible = false;
+		SetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
 	}
 
 	Engine::~Engine()
@@ -56,8 +72,9 @@ namespace Wanted
 		previousTime = currentTime; //전프레임 타임에 시간을 안넣으면 값이 커짐.
 
 		//기준 프레임( 단위: 초)
-		float targetFrameRate = 120.0f; // 1초에 240 프레임 
-		float oneFrameTime = 1.0f / targetFrameRate; // 1/240초
+		//float targetFrameRate = 120.0f; // 1초에 240 프레임 
+		setting.framerate = setting.framerate == 0.0f ? 60.0f : setting.framerate;
+		float oneFrameTime = 1.0f / setting.framerate; // 1/240초
 
 
 		// 엔진 루프(게임 루프)
@@ -101,6 +118,19 @@ namespace Wanted
 		// Todo : 정리 작업 
 		std::cout << "Engine has been shutdown...\n";
 
+		// 커서 켜기.
+		CONSOLE_CURSOR_INFO info = {};
+		GetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
+
+		info.bVisible = true;
+		SetConsoleCursorInfo(
+			GetStdHandle(STD_OUTPUT_HANDLE),
+			&info
+		);
+
 
 	}
 	void Engine::QuitEngine()
@@ -133,6 +163,31 @@ namespace Wanted
 		}
 
 		return *instance;
+	}
+
+	void Engine::LoadSetting()
+	{
+		FILE* file = nullptr;
+		fopen_s(&file, "../Config/Setting.txt", "rt");
+		//예외 처리 
+		if (!file)
+		{
+			std::cout << "Failed to open engine setting file. \n";
+			__debugbreak;
+			return;
+		}
+
+		//파일에서 읽은 데이터 담을 버퍼
+		char buffer[2048] = {};
+		
+		// 파일에서 읽기
+		size_t readSize = fread(buffer, sizeof(char), 2048, file);
+
+		//문자열 포맷을 활용해서 데이터 추출
+		sscanf_s(buffer, "framerate = %f", &setting.framerate);
+
+		//파일 닫기
+		fclose(file);
 	}
 
 	void Engine::BeginPlay()

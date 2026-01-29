@@ -7,6 +7,9 @@ class TestActor :public Wanted::Actor
 {
 	RTTI_DECLARATIONS(TestActor, Actor)
 
+public:
+	TestActor();
+
 //public:
 protected:
 	virtual void BeginPlay() override;
