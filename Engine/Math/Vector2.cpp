@@ -26,6 +26,7 @@ namespace Wanted
 		}
 	}
 
+
 	const char* Vector2::ToString()
 	{
 		// 기존 문자열이 있다면 제거.
@@ -60,5 +61,13 @@ namespace Wanted
 	bool Vector2::operator!=(const Vector2& other) const
 	{
 		return !(*this == other);
+	}
+	Vector2::operator COORD() const
+	{
+		COORD coord = {};
+		coord.X = static_cast<short>(x);
+		coord.Y = static_cast<short>(y);
+
+		return coord;
 	}
 }

@@ -13,7 +13,7 @@ namespace Wanted
 	class WANTED_API RTTI
 	{
 	public:
-		virtual const size_t& GetType() const = 0;
+		virtual const size_t& GetType() const = 0; //
 
 		virtual bool Is(RTTI* const rtti) const
 		{

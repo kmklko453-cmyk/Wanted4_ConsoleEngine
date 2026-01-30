@@ -50,6 +50,20 @@ void TestActor::Tick(float deltaTime)
 		newPosition.x -= 1;
 		SetPosition(newPosition);
 	}
+	if (Input::Get().GetKey(VK_UP) && GetPosition().y > 0)
+	{
+		Vector2 newPosition = GetPosition();
+		newPosition.y -= 1;
+		SetPosition(newPosition);
+	}
+
+	if (Input::Get().GetKey(VK_DOWN) && GetPosition().y < 20)
+	{
+		Vector2 newPosition = GetPosition();
+		newPosition.y += 1;
+		SetPosition(newPosition);
+	}
+
 
 	//std::cout
 	//	<< "TestActor::Tick(). deltaTime: " << deltaTime
