@@ -59,10 +59,11 @@ namespace Wanted
 	}
 	void Level::AddNewActor(Actor* newActor)
 	{
-		// 나중에 프레임 처리 고려해서 따로 추가 작업 해야함
-		//actors.push_back(newActor); 아래와 같음 이건 Lvalue 현재 버전에서는 Rvalue도 고려함
-		//actors.emplace_back(newActor); // 이건 Rvalue Reference 고려함 
+		// 나중에 추가를 위해 임시 배열에 저장
 		addRequestedActors.emplace_back(newActor);
+
+		//오너십 결정
+		newActor->SetOwner(this);
 
 	}
 	void Level::ProcessAddAndDestroyActors()
