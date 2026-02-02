@@ -1,1 +1,1 @@
-framerate = 120
+framerate = 30

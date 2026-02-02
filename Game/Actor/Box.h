@@ -2,12 +2,13 @@
 
 #include "Actor/Actor.h"
 
-
 using namespace Wanted;
-class Box : public Wanted::Actor
+
+class Box : public Actor
 {
-	RTTI_DECLARATIONS(Box,Actor)
+	// RTTI µî·Ï.
+	RTTI_DECLARATIONS(Box, Actor)
+
 public:
 	Box(const Vector2& newPosition);
 };
-

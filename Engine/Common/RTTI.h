@@ -13,7 +13,7 @@ namespace Wanted
 	class WANTED_API RTTI
 	{
 	public:
-		virtual const size_t& GetType() const = 0; //
+		virtual const size_t& GetType() const = 0;
 
 		virtual bool Is(RTTI* const rtti) const
 		{
@@ -23,6 +23,13 @@ namespace Wanted
 		virtual bool Is(const size_t id) const
 		{
 			return false;
+		}
+
+		// 타입 질문 함수.
+		template<typename T>
+		bool IsTypeOf()
+		{
+			return Is(T::TypeIdClass());
 		}
 
 		template<typename T>

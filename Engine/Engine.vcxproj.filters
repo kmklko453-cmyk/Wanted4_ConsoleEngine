@@ -13,13 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Engine">
-      <UniqueIdentifier>{8e08828f-7b3a-4b9c-afe4-1240d58d2377}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Engine.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Actor.cpp">
       <Filter>Source Files</Filter>
@@ -36,7 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
-      <Filter>Engine</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Actor.h">
       <Filter>Header Files</Filter>

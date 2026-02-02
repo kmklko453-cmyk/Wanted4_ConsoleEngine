@@ -16,7 +16,7 @@ namespace Wanted
 		: x(x), y(y)
 	{
 	}
-
+	
 	Vector2::~Vector2()
 	{
 		if (string)
@@ -25,8 +25,7 @@ namespace Wanted
 			string = nullptr;
 		}
 	}
-
-
+	
 	const char* Vector2::ToString()
 	{
 		// 기존 문자열이 있다면 제거.
@@ -62,6 +61,7 @@ namespace Wanted
 	{
 		return !(*this == other);
 	}
+
 	Vector2::operator COORD() const
 	{
 		COORD coord = {};
