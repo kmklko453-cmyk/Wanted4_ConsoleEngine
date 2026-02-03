@@ -61,7 +61,7 @@ namespace Util
 	}
 }
 
-//메모리 정리 함수
+// 메모리 정리 함수.
 template<typename T>
 void SafeDelete(T*& t)
 {
@@ -72,7 +72,6 @@ void SafeDelete(T*& t)
 	}
 }
 
-//메모리 정리 함수
 template<typename T>
 void SafeDeleteArray(T*& t)
 {

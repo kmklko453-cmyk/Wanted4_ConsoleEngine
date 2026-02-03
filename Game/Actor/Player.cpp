@@ -14,7 +14,7 @@
 using namespace Wanted;
 
 Player::Player(const Vector2& position)
-	: super('P', position, Color::Red)
+	: super("P", position, Color::Red)
 {
 	// 그리기 우선순위 높게 설정.
 	sortingOrder = 10;
@@ -33,10 +33,10 @@ void Player::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 
-	//ESC키 처리
+	// ESC키 처리.
 	if (Wanted::Input::Get().GetKeyDown(VK_ESCAPE))
 	{
-		//메뉴 활성화
+		// 메뉴 활성화.
 		Game::Get().ToggleMenu();
 		return;
 	}
