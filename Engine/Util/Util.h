@@ -60,3 +60,25 @@ namespace Util
 		);
 	}
 }
+
+//메모리 정리 함수
+template<typename T>
+void SafeDelete(T*& t)
+{
+	if (t)
+	{
+		delete t;
+		t = nullptr;
+	}
+}
+
+//메모리 정리 함수
+template<typename T>
+void SafeDeleteArray(T*& t)
+{
+	if (t)
+	{
+		delete[] t;
+		t = nullptr;
+	}
+}
