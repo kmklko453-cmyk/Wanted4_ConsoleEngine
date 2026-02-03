@@ -78,7 +78,7 @@ namespace Wanted
 		Frame* frame = nullptr;
 
 		//이중 버퍼 배열
-		ScreenBuffer* screenPuffers[2] = {};
+		ScreenBuffer* screenBuffers[2] = {};
 
 		//현재 활성화된 버퍼 인덱스
 		int currentBufferIndex = 0;
