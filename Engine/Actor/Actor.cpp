@@ -7,10 +7,7 @@
 
 namespace Wanted
 {
-	Actor::Actor(
-		const char* image, 
-		const Vector2& position,
-		Color color)
+	Actor::Actor(const char* image, const Vector2& position, Color color)
 		: position(position), color(color)
 	{
 		// 문자열 복사.
@@ -41,6 +38,19 @@ namespace Wanted
 
 		// 렌더러에 데이터 제출.
 		Renderer::Get().Submit(image, position, color, sortingOrder);
+	}
+
+	void Actor::Destroy()
+	{
+		// 삭제 플래그 설정.
+		destroyRequested = true;
+
+		// 삭제 이벤트 호출.
+		OnDestroy();
+	}
+
+	void Actor::OnDestroy()
+	{
 	}
 
 	void Actor::SetPosition(const Vector2& newPosition)

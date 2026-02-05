@@ -1,0 +1,6 @@
+﻿파일 역할:
+- 콘솔 유틸 및 안전 삭제 함수 제공.
+
+핵심 내용:
+- 커서 이동/색상 설정/커서 On-Off.
+- SafeDelete, SafeDeleteArray 템플릿 제공.

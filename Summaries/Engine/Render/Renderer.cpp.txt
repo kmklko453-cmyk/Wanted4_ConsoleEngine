@@ -1,0 +1,8 @@
+﻿파일 역할:
+- Renderer 구현.
+
+핵심 내용:
+- Frame::Clear로 프레임 초기화.
+- Draw: 렌더큐를 프레임에 합성, 우선순위 비교.
+- GetCurrentBuffer()->Draw 후 Present로 버퍼 교체.
+- 렌더큐 clear.

@@ -1,0 +1,5 @@
+﻿파일 역할:
+- 플레이어 이동 가능 여부 인터페이스.
+
+핵심 내용:
+- CanMove(playerPosition, nextPosition) 순수 가상함수.

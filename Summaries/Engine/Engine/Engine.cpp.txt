@@ -1,0 +1,9 @@
+﻿파일 역할:
+- 엔진 루프 및 설정 로드 구현.
+
+핵심 내용:
+- QueryPerformanceFrequency/Counter로 deltaTime 계산.
+- 고정 프레임(목표 시간 이상일 때만 1프레임 처리).
+- ProcessInput -> BeginPlay -> Tick -> Draw 순서.
+- SavePreviousInputStates, 레벨 add/destroy 처리.
+- LoadSetting: Config/Setting.txt 파싱.

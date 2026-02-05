@@ -2,8 +2,9 @@
 #include "Actor/Player.h"
 #include "Actor/Wall.h"
 #include "Actor/Ground.h"
-#include "Actor/Box.h"
+#include "Actor/Ball.h"
 #include "Actor/Target.h"
+#include "Actor/Line.h"
 #include "Util/Util.h"
 
 #include <iostream>
@@ -21,7 +22,7 @@ SokobanLevel::SokobanLevel()
 	// TestActor 액터를 레벨에 추가.
 	//AddNewActor(new Player());
 	//LoadMap("Map.txt");
-	LoadMap("Stage1.txt");
+	LoadMap("court.txt");
 }
 
 void SokobanLevel::Draw()
@@ -117,17 +118,22 @@ void SokobanLevel::LoadMap(const char* filename)
 		switch (mapCharacter)
 		{
 		case '#':
-		case '1':
+		case '0':
 			//std::cout << "#";
 			AddNewActor(new Wall(position));
 			break;
 
-		case '.':
+		case ' ':
 			//std::cout << " ";
 			AddNewActor(new Ground(position));
 			break;
 
-		case 'p':
+		case '@':
+			//std::cout << " ";
+			AddNewActor(new Line(position));
+			break;
+
+		case 'P':
 			//std::cout << "P";
 			// 플레이어도 이동 가능함.
 			// 플레이어 밑에 땅이 있어야 함.
@@ -135,17 +141,23 @@ void SokobanLevel::LoadMap(const char* filename)
 			AddNewActor(new Ground(position));
 			break;
 
-		case 'b':
+		case 'B':
 			//std::cout << "B";
 			// 박스는 이동 가능함.
 			// 박스가 옮겨졌을 때 그 밑에 땅이 있어야 함.
-			AddNewActor(new Box(position));
+			AddNewActor(new Ball(position));
 			AddNewActor(new Ground(position));
+			break;
+
+		case 'T':
+			//std::cout << "T";
+			AddNewActor(new Target("T", position, Color::Red));
+			++targetScore;
 			break;
 
 		case 't':
 			//std::cout << "T";
-			AddNewActor(new Target(position));
+			AddNewActor(new Target("t", position, Color::Blue));
 			++targetScore;
 			break;
 		}
@@ -173,7 +185,7 @@ bool SokobanLevel::CanMove(
 	for (Actor* const actor : actors)
 	{
 		// 액터가 박스 타입인지 확인.
-		if (actor->IsTypeOf<Box>())
+		if (actor->IsTypeOf<Ball>())
 		{
 			boxes.emplace_back(actor);
 			continue;
@@ -231,9 +243,8 @@ bool SokobanLevel::CanMove(
 					return false;
 				}
 
-				// #3: 그라운드 또는 타겟이면 이동 가능.
-				if (actor->IsTypeOf<Ground>()
-					|| actor->IsTypeOf<Target>())
+				 //3: 그라운드 또는 타겟이면 이동 가능.
+					if (actor->IsTypeOf<Ground>()|| actor->IsTypeOf<Target>()||actor->IsTypeOf<Line>())
 				{
 					// 박스 이동 처리.
 					boxActor->SetPosition(newPosition);
@@ -268,7 +279,7 @@ bool SokobanLevel::CanMove(
 
 	// 에러.
 	return false;
-}
+} //canmove
 
 bool SokobanLevel::CheckGameClear()
 {
@@ -283,7 +294,7 @@ bool SokobanLevel::CheckGameClear()
 	for (Actor* const actor : actors)
 	{
 		// 박스인 경우 박스 배열에 추가.
-		if (actor->IsTypeOf<Box>())
+		if (actor->IsTypeOf<Ball>())
 		{
 			boxes.emplace_back(actor);
 			continue;

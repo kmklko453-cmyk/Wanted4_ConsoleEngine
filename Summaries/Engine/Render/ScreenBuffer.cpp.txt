@@ -1,0 +1,9 @@
+﻿파일 역할:
+- ScreenBuffer 구현.
+
+핵심 내용:
+- CreateConsoleScreenBuffer로 버퍼 생성.
+- 콘솔 창 크기/버퍼 크기 설정.
+- 커서 숨김.
+- Clear: FillConsoleOutputCharacterA로 공백 덮기.
+- Draw: WriteConsoleOutputA로 출력.

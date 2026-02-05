@@ -1,0 +1,7 @@
+﻿파일 역할:
+- Game 구현.
+
+핵심 내용:
+- SokobanLevel, MenuLevel 생성 후 levels에 보관.
+- ToggleMenu: 상태 전환, mainLevel 변경, 화면 클리어.
+- 소멸자에서 레벨 정리.

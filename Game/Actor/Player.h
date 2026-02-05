@@ -11,6 +11,15 @@ class Player : public Actor
 public:
 	Player(const Vector2& position);
 
+private:
+
+	// 슛 함수.
+	void Shoot();
+
+	// 발사 가능여부 확인 함수.
+	bool CanShoot() const;
+
+	
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;

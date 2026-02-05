@@ -27,6 +27,12 @@ namespace Wanted
 		virtual void Tick(float deltaTime);
 		virtual void Draw();
 
+		// 삭제 요청 함수.
+		void Destroy();
+
+		// 삭제가 될 때 호출될 이벤트 함수.
+		virtual void OnDestroy();
+
 		// 위치 변경 및 읽기 함수.
 		void SetPosition(const Vector2& newPosition);
 		inline Vector2 GetPosition() const { return position; }
@@ -75,7 +81,6 @@ namespace Wanted
 		// 그리기 우선 순위 (값이 크면 우선순위가 높음).
 		int sortingOrder = 0;
 
-	private:
 		// 위치.
 		Vector2 position;
 	};

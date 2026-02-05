@@ -1,0 +1,9 @@
+﻿파일 역할:
+- Level 기본 로직 구현.
+
+핵심 내용:
+- 소멸자에서 Actor 메모리 정리.
+- BeginPlay: 아직 시작 안 한 Actor만 호출.
+- Tick: 모든 Actor 업데이트.
+- Draw: 활성 Actor만 Draw 호출.
+- ProcessAddAndDestroyActors: 삭제 요청 처리 후 추가 요청 반영.

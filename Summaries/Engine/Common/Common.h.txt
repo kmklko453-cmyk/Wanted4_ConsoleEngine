@@ -1,0 +1,6 @@
+﻿파일 역할:
+- DLL 내보내기/가져오기 매크로 정의.
+- 경고 4251, 4172 비활성화.
+
+핵심 내용:
+- ENGINE_BUILD_DLL 여부에 따라 WANTED_API를 DLLEXPORT/DLLIMPORT로 설정.

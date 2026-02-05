@@ -1,0 +1,7 @@
+﻿파일 역할:
+- Input 구현.
+
+핵심 내용:
+- 싱글톤 instance 유지.
+- ProcessInput: GetAsyncKeyState로 0~254 키 상태 갱신.
+- SavePreviousInputStates: 현재를 이전 상태로 복사.

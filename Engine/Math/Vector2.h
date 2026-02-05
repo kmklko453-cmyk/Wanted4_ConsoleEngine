@@ -35,6 +35,8 @@ namespace Wanted
 		// x/y 좌표.
 		int x = 0;
 		int y = 0;
+		float xF = 0.0f;
+		float yF = 0.0f;
 
 	private:
 		// 벡터 값을 문자열로 변환할 때 사용할 변수.

@@ -1,0 +1,8 @@
+﻿파일 역할:
+- 더블 버퍼링 콘솔 렌더러.
+
+핵심 내용:
+- Frame: CHAR_INFO 배열 + sortingOrder 배열.
+- RenderCommand: 텍스트/좌표/색상/우선순위.
+- Submit로 렌더큐 적재, Draw로 출력.
+- Present로 활성 버퍼 교체.

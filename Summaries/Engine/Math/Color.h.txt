@@ -1,0 +1,6 @@
+﻿파일 역할:
+- 콘솔 색상 enum 정의.
+
+핵심 내용:
+- Windows 콘솔 색상 플래그(FOREGROUND_*) 사용.
+- White = Blue|Green|Red 조합.

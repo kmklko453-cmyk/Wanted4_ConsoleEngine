@@ -1,0 +1,7 @@
+﻿파일 역할:
+- 레벨 내 Actor 관리 클래스.
+
+핵심 내용:
+- actors / addRequestedActors 벡터.
+- BeginPlay/Tick/Draw 가상 함수 제공.
+- AddNewActor, ProcessAddAndDestroyActors 제공.

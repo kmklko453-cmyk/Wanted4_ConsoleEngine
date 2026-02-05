@@ -1,0 +1,6 @@
+﻿파일 역할:
+- 커스텀 RTTI 기반 클래스와 매크로 제공.
+
+핵심 내용:
+- RTTI: GetType/Is/As/IsTypeOf 제공.
+- RTTI_DECLARATIONS 매크로로 TypeIdClass, GetType, Is 구현 자동화.
