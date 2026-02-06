@@ -64,7 +64,84 @@ void Player::Tick(float deltaTime)
 		Shoot();
 	}
 
+	if (Input::Get().GetKeyDown('1'))
+	{	
+		Level* level = GetOwner();
+		if (!level) return;
 
+		std::vector<TeamMate*> tM;
+
+		level->GetActorInstance<TeamMate>(tM);
+		
+		if (tM.empty())
+		{
+			return;
+		}
+
+
+		Vector2 tMP = tM[0]->GetPosition();
+
+		
+		GetOwner()->AddNewActor(new Ball(position,tMP));
+	}
+	if (Input::Get().GetKeyDown('2'))
+	{
+		Level* level = GetOwner();
+		if (!level) return;
+
+		std::vector<TeamMate*> tM;
+
+		level->GetActorInstance<TeamMate>(tM);
+
+		if (tM.empty())
+		{
+			return;
+		}
+
+
+		Vector2 tMP = tM[1]->GetPosition();
+
+
+		GetOwner()->AddNewActor(new Ball(position, tMP));
+	}if (Input::Get().GetKeyDown('3'))
+	{
+		Level* level = GetOwner();
+		if (!level) return;
+
+		std::vector<TeamMate*> tM;
+
+		level->GetActorInstance<TeamMate>(tM);
+
+		if (tM.empty())
+		{
+			return;
+		}
+
+
+		Vector2 tMP = tM[2]->GetPosition();
+
+
+		GetOwner()->AddNewActor(new Ball(position, tMP));
+	}if (Input::Get().GetKeyDown('4'))
+	{
+		Level* level = GetOwner();
+		if (!level) return;
+
+		std::vector<TeamMate*> tM;
+
+		level->GetActorInstance<TeamMate>(tM);
+
+		if (tM.empty())
+		{
+			return;
+		}
+
+
+		Vector2 tMP = tM[3]->GetPosition();
+
+
+		GetOwner()->AddNewActor(new Ball(position, tMP));
+	}
 
 	//// 인터페이스 확인.
 	static ICanPlayerMove* canPlayerMoveInterface = nullptr;

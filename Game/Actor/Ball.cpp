@@ -15,16 +15,50 @@ Ball::Ball(const Vector2& Position)
 	sortingOrder = 5;
 }
 
+//Todo: 삭제예정
+Ball::Ball(const Vector2& Position, const Vector2& targetPosition)
+	:super("B",Position,Color::Blue),targetPos(targetPosition)
+{
+}
+
+
+
 Ball::~Ball()
 {
 }
 
 void Ball::Tick(float deltaTime)
 {
+	
 	Actor::Tick(deltaTime);
 
 	Level* level = GetOwner();
 	if (!level) return;
+	if (!(targetPos.x == 0 && targetPos.y == 0))
+	{
+
+		Vector2 ballPos = GetPosition();
+
+		Vector2f posT1f = ToVector2f(targetPos);
+		Vector2f posBf = ToVector2f(ballPos);
+
+
+		Vector2f dir;
+		dir.x = posT1f.x - posBf.x;
+		dir.y = posT1f.y - posBf.y;
+
+		float len = sqrt(dir.x * dir.x + dir.y * dir.y);
+
+		float nx = dir.x / len;
+		float ny = dir.y / len;
+
+
+		posBf.x += (nx * 10) * moveSpeed * deltaTime;
+		posBf.y += (ny * 10) * moveSpeed * deltaTime;
+
+		SetPosition(ToVector2(posBf));
+		return;
+	}
 
 	std::vector<Target*> targets;
 	std::vector<Player*> player;

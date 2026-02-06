@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Actor/Actor.h"
+#include "actor/TeamMate.h"
 #include "Math/Vector2f.h"
 
 using namespace Wanted;
@@ -12,9 +13,16 @@ class Ball : public Actor
 
 public:
 	Ball(const Vector2& Position);
+
+	//Todo: 삭제예정
+	Ball(const Vector2& Position, const  Vector2& targetPosition);
 	~Ball();
 	
 	virtual void Tick(float deltaTime) override;
+
+	//Todo: 부활 예정 삭제할 수 있음
+	//const Vector2& GetTeamMatePosition(const TeamMate& tM) { return tM.GetPosition(); }
+	
 
 	inline Vector2f ToVector2f(const Vector2& v)
 	{
@@ -31,7 +39,7 @@ private:
 	float moveSpeed = 5.0f;
 
 	//팀 동료 위치
-	Vector2 targetPos;
+	Vector2 targetPos ;
 
 	//골대 위치
 	Vector2 posT1;

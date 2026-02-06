@@ -59,6 +59,13 @@ namespace Wanted
 				{
 					outActor.emplace_back(static_cast<T*>(actor));
 				}
+				for (Actor* actor : addRequestedActors)
+				{
+					if (actor->IsTypeOf<T>())
+					{
+						outActor.emplace_back(static_cast<T*>(actor));
+					}
+				}
 			}
 		}
 
