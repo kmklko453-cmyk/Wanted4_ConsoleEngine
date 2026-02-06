@@ -5,6 +5,7 @@
 #include "Actor/Ball.h"
 #include "Actor/Target.h"
 #include "Actor/Line.h"
+#include "Actor/TeamMate.h"
 #include "Util/Util.h"
 
 #include <iostream>
@@ -141,12 +142,31 @@ void SokobanLevel::LoadMap(const char* filename)
 			AddNewActor(new Ground(position));
 			break;
 
+		case '1':
+			AddNewActor(new TeamMate("1", position, Color::Red,CheckTeamMate::one));
+			AddNewActor(new Ground(position));
+			break;
+
+		case '2':
+			AddNewActor(new TeamMate("2", position, Color::Red, CheckTeamMate::two));
+			AddNewActor(new Ground(position));
+			break;
+
+		case '3':
+			AddNewActor(new TeamMate("3", position, Color::Red, CheckTeamMate::three));
+			AddNewActor(new Ground(position));
+			break;
+
+		case '4':
+			AddNewActor(new TeamMate("4", position, Color::Red, CheckTeamMate::four));
+			AddNewActor(new Ground(position));
+			break;
+
 		case 'B':
 			//std::cout << "B";
 			// 박스는 이동 가능함.
 			// 박스가 옮겨졌을 때 그 밑에 땅이 있어야 함.
 			AddNewActor(new Ball(position));
-			AddNewActor(new Ground(position));
 			break;
 
 		case 'T':

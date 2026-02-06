@@ -16,8 +16,18 @@ using namespace Wanted;
 Player::Player(const Vector2& position)
 	: super("P", position, Color::Red)	
 {
+	int xPotsition = 27;
+	int yPositionn = 17;
+
+	SetPosition(Vector2(xPotsition, yPositionn));
 
 	// 그리기 우선순위 높게 설정.
+	sortingOrder = 10;
+}
+
+Player::Player(const char* image, const Vector2& position, Color color)
+	:super(image,position,color)
+{
 	sortingOrder = 10;
 }
 
@@ -54,36 +64,6 @@ void Player::Tick(float deltaTime)
 		Shoot();
 	}
 
-	//Todo: 스페이스바 슛 으로 변경
-	// 스페이스 키를 활용해 탄약 발사.
-	/*if (fireMode == FireMode::OneShot)
-	{
-		if (Input::Get().GetKeyDown(VK_SPACE))
-		{
-			Fire();
-		}
-	}
-	else if (fireMode == FireMode::Repeat)
-	{
-		if (Input::Get().GetKey(VK_SPACE))
-		{
-			FireInterval();
-		}
-	}*/
-
-
-	//Todo: 삭제 예정 스페이스 박스생성
-
-	//// 스페이스로 박스 생성.
-	//// vk->virtual key.
-	//if (Input::Get().GetKeyDown(VK_SPACE))
-	//{
-	//	// 박스 생성.
-	//	if (owner)
-	//	{
-	//		owner->AddNewActor(new Ball(GetPosition()));
-	//	}
-	//} 
 
 
 	//// 인터페이스 확인.

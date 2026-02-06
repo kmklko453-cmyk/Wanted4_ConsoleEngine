@@ -10,6 +10,7 @@ class Player : public Actor
 
 public:
 	Player(const Vector2& position);
+	Player(const char* image , const Vector2& position , Color color );
 
 private:
 

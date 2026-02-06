@@ -12,6 +12,7 @@ namespace Wanted
         Vector2f& operator-=(const Vector2f& r) { x -= r.x; y -= r.y; return *this; }
         Vector2f& operator*=(float s) { x *= s; y *= s; return *this; }
         Vector2f& operator/=(float s) { x /= s; y /= s; return *this; }
+        Vector2f operator+=(float s) { x += s; y += s; return *this; }
 
         // 단항 - (부호 반전)
         Vector2f operator-() const { return Vector2f(-x, -y); }

@@ -46,7 +46,7 @@ namespace Wanted
 		{
 			actor->Tick(deltaTime);
 		}
-	}
+	} 
 
 	void Level::Draw()
 	{

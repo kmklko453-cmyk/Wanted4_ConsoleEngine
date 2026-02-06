@@ -15,8 +15,6 @@ public:
 	~Ball();
 	
 	virtual void Tick(float deltaTime) override;
-	
-	Vector2f SetDir(Vector2f& goal, Vector2f& pos);
 
 	inline Vector2f ToVector2f(const Vector2& v)
 	{
@@ -32,7 +30,16 @@ private:
 	//공 날라 가는 속도
 	float moveSpeed = 5.0f;
 
-	float yPosition = 0.0f;
-	float xPosition = 0.0f;
+	//팀 동료 위치
+	Vector2 targetPos;
+
+	//골대 위치
+	Vector2 posT1;
+	Vector2 posT2;
+
+
+
+	
+
 
 };
