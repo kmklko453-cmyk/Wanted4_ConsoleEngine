@@ -53,8 +53,8 @@ void Ball::Tick(float deltaTime)
 		float ny = dir.y / len;
 
 
-		posBf.x += (nx * 10) * moveSpeed * deltaTime;
-		posBf.y += (ny * 10) * moveSpeed * deltaTime;
+		posBf.x += (nx*10) * moveSpeed * deltaTime;
+		posBf.y += (ny*10) * moveSpeed * deltaTime;
 
 		SetPosition(ToVector2(posBf));
 		return;

@@ -53,6 +53,40 @@ namespace Wanted
 	{
 	}
 
+	bool Actor::TestIntersect(const Actor* const other)
+	{
+		// AABB (Axis Aligned Bounding Box).
+		// x 좌표만 고려하면됨. y는 크기가 1이기 때문.
+
+		// 자기자신의 x좌표 정보.
+		int xMin = position.x;
+		int xMax = position.x + width - 1;
+
+		// 충돌을 비교할 다른 액터의 x좌표 정보.
+		int otherXMin = other->GetPosition().x;
+		int otherXMax
+			= other->position.x + other->width - 1;
+
+		// 안겹치는 조건 확인.
+
+		// 다른 액터의 왼쪽 좌표가
+		// 내 오른쪽 좌표보다 더 오른쪽에 있는 경우.
+		if (otherXMin > xMax)
+		{
+			return false;
+		}
+
+		// 다른 액터의 오른쪽 좌표가
+		// 내 왼쪽 좌표보다 더 왼쪽에 있는 경우.
+		if (otherXMax < xMin)
+		{
+			return false;
+		}
+
+		// y는 크기가 1이기 때문에 좌표가 같은지 여부만 확인.
+		return position.y == other->position.y;
+	}
+
 	void Actor::SetPosition(const Vector2& newPosition)
 	{
 		// 렌더러에 빈칸 그리기 요청.

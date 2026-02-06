@@ -1,4 +1,5 @@
 #include "SokobanLevel.h"
+#include "Actor/Actor.h"
 #include "Actor/Player.h"
 #include "Actor/Wall.h"
 #include "Actor/Ground.h"
@@ -191,6 +192,34 @@ void SokobanLevel::LoadMap(const char* filename)
 
 	// 파일이 정상적으로 열렸으면 닫기.
 	fclose(file);
+}
+
+void SokobanLevel::Tick(float deltaTime)
+{
+	ChangePosition();
+}
+
+//Todo: 포지션 변경 구현
+void SokobanLevel::ChangePosition()
+{
+	std::vector<Ball*> ball;
+	std::vector<TeamMate*> teamMates;
+
+	for (Actor* const bullet : ball)
+	{
+		for (TeamMate* const tM : teamMates)
+		{
+			// AABB 겹침 판정.
+			if (bullet->TestIntersect(tM))
+			{
+				Vector2 temp = bullet->GetPosition();
+				bullet = tM->GetPosition();
+				// 점수 추가.
+				
+				continue;
+			}
+		}
+	}
 }
 
 bool SokobanLevel::CanMove(

@@ -14,11 +14,15 @@ public:
 
 	// 이벤트 함수 오버라이드.
 	virtual void Draw() override;
-
+	
 private:
 
 	// 게임에서 사용할 맵을 로드하는 함수.
 	void LoadMap(const char* filename);
+	virtual void Tick(float deltaTime) override;
+
+
+	void ChangePosition();
 
 	// Inherited via ICanPlayerMove
 	virtual bool CanMove(
