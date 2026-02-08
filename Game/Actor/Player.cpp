@@ -72,15 +72,9 @@ void Player::Tick(float deltaTime)
 		std::vector<TeamMate*> tM;
 
 		level->GetActorInstance<TeamMate>(tM);
-		
-		if (tM.empty())
-		{
-			return;
-		}
-
-
+	
+		if (tM.size() <= 0)return;
 		Vector2 tMP = tM[0]->GetPosition();
-
 		
 		GetOwner()->AddNewActor(new Ball(position,tMP));
 	}
@@ -93,17 +87,13 @@ void Player::Tick(float deltaTime)
 
 		level->GetActorInstance<TeamMate>(tM);
 
-		if (tM.empty())
-		{
-			return;
-		}
-
-
+		if (tM.size() <= 1)return;
 		Vector2 tMP = tM[1]->GetPosition();
 
-
 		GetOwner()->AddNewActor(new Ball(position, tMP));
-	}if (Input::Get().GetKeyDown('3'))
+	}
+	
+	if (Input::Get().GetKeyDown('3'))
 	{
 		Level* level = GetOwner();
 		if (!level) return;
@@ -112,17 +102,13 @@ void Player::Tick(float deltaTime)
 
 		level->GetActorInstance<TeamMate>(tM);
 
-		if (tM.empty())
-		{
-			return;
-		}
-
-
+		if (tM.size() <= 2)return;
 		Vector2 tMP = tM[2]->GetPosition();
 
-
 		GetOwner()->AddNewActor(new Ball(position, tMP));
-	}if (Input::Get().GetKeyDown('4'))
+	}
+
+	if (Input::Get().GetKeyDown('4'))
 	{
 		Level* level = GetOwner();
 		if (!level) return;
@@ -131,14 +117,8 @@ void Player::Tick(float deltaTime)
 
 		level->GetActorInstance<TeamMate>(tM);
 
-		if (tM.empty())
-		{
-			return;
-		}
-
-
+		if (tM.size() <= 3)return;
 		Vector2 tMP = tM[3]->GetPosition();
-
 
 		GetOwner()->AddNewActor(new Ball(position, tMP));
 	}

@@ -109,6 +109,8 @@ namespace Wanted
 
 	void Level::ProcessAddAndDestroyActors()
 	{
+	
+
 		// 제거 처리.
 		for (int ix = 0; ix < static_cast<int>(actors.size()); )
 		{

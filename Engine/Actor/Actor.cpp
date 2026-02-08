@@ -11,7 +11,10 @@ namespace Wanted
 		: position(position), color(color)
 	{
 		// 문자열 복사.
-		size_t length = strlen(image) + 1;
+		if (!image) image = " ";
+		size_t length = strlen(image) + 1; // 널 포함
+		width = static_cast<int>(length - 1);
+
 		this->image = new char[length];
 		strcpy_s(this->image, length, image);
 	}
