@@ -1,4 +1,4 @@
-framerate = 30
+framerate = 15
 
 width = 1000
 height = 1000

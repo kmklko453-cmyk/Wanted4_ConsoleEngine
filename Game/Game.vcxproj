@@ -154,7 +154,9 @@
     <ClCompile Include="Actor\Ball.cpp" />
     <ClCompile Include="Actor\Ground.cpp" />
     <ClCompile Include="Actor\Line.cpp" />
-    <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\Player1.cpp" />
+    <ClCompile Include="Actor\Player2.cpp" />
+    <ClCompile Include="Actor\PlayerBase.cpp" />
     <ClCompile Include="Actor\Target.cpp" />
     <ClCompile Include="Actor\TeamMate.cpp" />
     <ClCompile Include="Actor\Wall.cpp" />
@@ -167,7 +169,9 @@
     <ClInclude Include="Actor\Ball.h" />
     <ClInclude Include="Actor\Ground.h" />
     <ClInclude Include="Actor\Line.h" />
-    <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\Player1.h" />
+    <ClInclude Include="Actor\Player2.h" />
+    <ClInclude Include="Actor\PlayerBase.h" />
     <ClInclude Include="Actor\Target.h" />
     <ClInclude Include="Actor\TeamMate.h" />
     <ClInclude Include="Actor\Wall.h" />

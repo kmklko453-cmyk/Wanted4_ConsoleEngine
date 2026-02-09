@@ -21,7 +21,7 @@
     <ClCompile Include="Level\SokobanLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Player.cpp">
+    <ClCompile Include="Actor\PlayerBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Ball.cpp">
@@ -48,12 +48,18 @@
     <ClCompile Include="Actor\TeamMate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\Player1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Player2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level\SokobanLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Player.h">
+    <ClInclude Include="Actor\PlayerBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Ball.h">
@@ -81,6 +87,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor\TeamMate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Player1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Player2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

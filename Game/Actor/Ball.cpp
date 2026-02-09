@@ -1,6 +1,6 @@
 #include "Ball.h"
 #include "Target.h"
-#include "Player.h"
+#include "PlayerBase.h"
 #include "Level/Level.h"
 
 
@@ -30,8 +30,8 @@ void Ball::Tick(float deltaTime)
 	if (!level) return;
 	if (!inFlight)
 	{
-		std::vector<Player*> player;
-		level->GetActorInstance<Player>(player);
+		std::vector<PlayerBase*> player;
+		level->GetActorInstance<PlayerBase>(player);
 		Vector2 playerSideBallP = player[0]->GetPosition();
 		if (player.empty())return;
 		SetPosition(Vector2(playerSideBallP.x + 1, playerSideBallP.y));

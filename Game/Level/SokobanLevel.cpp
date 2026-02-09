@@ -1,6 +1,7 @@
 #include "SokobanLevel.h"
 #include "Actor/Actor.h"
-#include "Actor/Player.h"
+#include "Actor/Player1.h"
+#include "Actor/Player2.h"
 #include "Actor/Wall.h"
 #include "Actor/Ground.h"
 #include "Actor/Ball.h"
@@ -142,27 +143,51 @@ void SokobanLevel::LoadMap(const char* filename)
 			//std::cout << "P";
 			// 플레이어도 이동 가능함.
 			// 플레이어 밑에 땅이 있어야 함.
-			AddNewActor(new Player(position));
+			AddNewActor(new Player1(position));
+			AddNewActor(new Ground(position));
+			break;
+
+		case 'p':
+			AddNewActor(new Player2(position));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '1':
-			AddNewActor(new TeamMate("1", position, Color::Red, CheckTeamMate::one));
+			AddNewActor(new TeamMate("1", position, Color::Red));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '2':
-			AddNewActor(new TeamMate("2", position, Color::Red, CheckTeamMate::two));
+			AddNewActor(new TeamMate("2", position, Color::Red));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '3':
-			AddNewActor(new TeamMate("3", position, Color::Red, CheckTeamMate::three));
+			AddNewActor(new TeamMate("3", position, Color::Red));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '4':
-			AddNewActor(new TeamMate("4", position, Color::Red, CheckTeamMate::four));
+			AddNewActor(new TeamMate("4", position, Color::Red));
+			AddNewActor(new Ground(position));
+			break;
+		case 's':
+			AddNewActor(new TeamMate("1", position, Color::Green));
+			AddNewActor(new Ground(position));
+			break;
+
+		case 'h':
+			AddNewActor(new TeamMate("2", position, Color::Green));
+			AddNewActor(new Ground(position));
+			break;
+
+		case 'i':
+			AddNewActor(new TeamMate("3", position, Color::Green));
+			AddNewActor(new Ground(position));
+			break;
+
+		case 'n':
+			AddNewActor(new TeamMate("4", position, Color::Green));
 			AddNewActor(new Ground(position));
 			break;
 
@@ -209,12 +234,12 @@ void SokobanLevel::Tick(float deltaTime)
 void SokobanLevel::ChangePosition()
 {
 	if (Input::Get().GetKey(VK_SPACE)) return;
-	std::vector<Player*> players;
+	std::vector<PlayerBase*> players;
 	std::vector<Ball*> balls;
 	std::vector<TeamMate*> teamMates;
 	GetActorInstance<Ball>(balls);
 	GetActorInstance<TeamMate>(teamMates);
-	GetActorInstance<Player>(players);
+	GetActorInstance<PlayerBase>(players);
 	if (players.empty() || balls.empty() || teamMates.empty())
 		return;
 
