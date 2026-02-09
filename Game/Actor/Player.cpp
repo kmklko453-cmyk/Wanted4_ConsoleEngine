@@ -24,11 +24,11 @@ Player::Player(const Vector2& position)
 	sortingOrder = 10;
 }
 
-Player::Player(const char* image, const Vector2& position, Color color)
-	:super(image,position,color)
-{
-	sortingOrder = 10;
-}
+//Player::Player(const char* image, const Vector2& position, Color color)
+//	:super(image,position,color)
+//{
+//	sortingOrder = 10;
+//}
 
 void Player::BeginPlay()
 {

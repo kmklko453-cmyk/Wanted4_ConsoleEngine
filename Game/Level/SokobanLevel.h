@@ -21,7 +21,7 @@ private:
 	void LoadMap(const char* filename);
 	virtual void Tick(float deltaTime) override;
 
-
+	//Teammate <-> Player 포지션 변경
 	void ChangePosition();
 
 	// Inherited via ICanPlayerMove
@@ -30,12 +30,22 @@ private:
 		const Wanted::Vector2& nextPosition) override;
 
 	// 게임 클리어 확인 함수.
-	bool CheckGameClear();
+	void CheckGameClear();
+
+	// 점수 보여주는 함수.
+	void ShowScore();
 
 private:
 	// 획득해야하는 목표 점수.
 	int targetScore = 0;
 
+	//점수 변수
+	int score1 = 0;
+	int score2 = 0;
+
 	// 게임 클리어 여부를 알려주는 변수.
 	bool isGameClear = false;
+
+	char scoreString1[128] = {};
+	char scoreString2[128] = {};
 };

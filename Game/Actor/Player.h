@@ -10,12 +10,12 @@ class Player : public Actor
 
 public:
 	Player(const Vector2& position);
-	Player(const char* image , const Vector2& position , Color color );
+	//Player(const char* image , const Vector2& position , Color color );
 
 private:
 
 	// 슛 함수.
-	void Shoot();
+	virtual void Shoot();
 
 	// 발사 가능여부 확인 함수.
 	bool CanShoot() const;

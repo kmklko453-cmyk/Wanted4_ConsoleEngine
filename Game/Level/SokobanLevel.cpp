@@ -7,6 +7,7 @@
 #include "Actor/Target.h"
 #include "Actor/Line.h"
 #include "Actor/TeamMate.h"
+#include "Render/Renderer.h"
 #include "Core/Input.h"
 #include "Util/Util.h"
 
@@ -42,6 +43,7 @@ void SokobanLevel::Draw()
 		// 게임 클리어 메시지 출력.
 		std::cout << "Game Clear!";
 	}
+	ShowScore();
 }
 
 void SokobanLevel::LoadMap(const char* filename)
@@ -145,7 +147,7 @@ void SokobanLevel::LoadMap(const char* filename)
 			break;
 
 		case '1':
-			AddNewActor(new TeamMate("1", position, Color::Red,CheckTeamMate::one));
+			AddNewActor(new TeamMate("1", position, Color::Red, CheckTeamMate::one));
 			AddNewActor(new Ground(position));
 			break;
 
@@ -200,6 +202,7 @@ void SokobanLevel::Tick(float deltaTime)
 	super::Tick(deltaTime);
 
 	ChangePosition();
+	CheckGameClear();
 }
 
 //Todo: 포지션 변경 구현
@@ -228,11 +231,11 @@ void SokobanLevel::ChangePosition()
 				return;
 			}
 		}
-	} 
+	}
 }
 
 bool SokobanLevel::CanMove(
-	const Wanted::Vector2& playerPosition, 
+	const Wanted::Vector2& playerPosition,
 	const Wanted::Vector2& nextPosition)
 {
 	// 레벨에 있는 박스 액터 모으기.
@@ -301,14 +304,14 @@ bool SokobanLevel::CanMove(
 					return false;
 				}
 
-				 //3: 그라운드 또는 타겟이면 이동 가능.
-					if (actor->IsTypeOf<Ground>()|| actor->IsTypeOf<Target>()||actor->IsTypeOf<Line>())
+				//3: 그라운드 또는 타겟이면 이동 가능.
+				if (actor->IsTypeOf<Ground>() || actor->IsTypeOf<Target>() || actor->IsTypeOf<Line>())
 				{
 					// 박스 이동 처리.
 					boxActor->SetPosition(newPosition);
 
 					// 게임 점수 확인.
-					isGameClear = CheckGameClear();
+					//isGameClear = CheckGameClear();
 
 					// 플레이어 이동 가능.
 					return true;
@@ -339,45 +342,42 @@ bool SokobanLevel::CanMove(
 	return false;
 } //canmove
 
-bool SokobanLevel::CheckGameClear()
+void SokobanLevel::CheckGameClear()
 {
 	// 타겟 위에 있는 박스의 수 검증.
 	int currentScore = 0;
 
 	// 배열에 박스 및 타겟 저장.
-	std::vector<Actor*> boxes;
-	std::vector<Actor*> targets;
+	std::vector<Ball*> ball;
+	std::vector<Target*> targets;
 
-	// 레벨에 배치된 배열 순회하면서 두 액터 필터링.
-	for (Actor* const actor : actors)
+	GetActorInstance<Ball>(ball);
+	GetActorInstance<Target>(targets);
+
+	if (ball.empty() || targets.empty())return;
+
+	// 두 액터의 위치가 같으면 점수 +.
+	if (ball[0]->TestIntersect(targets[0]))
 	{
-		// 박스인 경우 박스 배열에 추가.
-		if (actor->IsTypeOf<Ball>())
-		{
-			boxes.emplace_back(actor);
-			continue;
-		}
-
-		// 타겟의 경우 타겟 배열에 추가.
-		if (actor->IsTypeOf<Target>())
-		{
-			targets.emplace_back(actor);
-		}
+		score1 += 1;
+	}
+	else if(ball[0]->TestIntersect(targets[1]))
+	{
+		score2 += 1;
 	}
 
-	// 점수 확인 (박스의 위치가 타겟의 위치와 같은지 비교).
-	for (Actor* const box : boxes)
-	{
-		for (Actor* const target : targets)
-		{
-			// 두 액터의 위치가 같으면 점수 +.
-			if (box->GetPosition() == target->GetPosition())
-			{
-				currentScore += 1;
-			}
-		}
-	}
+}
 
-	// 목표 점수에 도달했는지 확인.
-	return currentScore == targetScore;
+void SokobanLevel::ShowScore()
+{
+	sprintf_s(scoreString1, 128, "Score: %d", score1);
+	Renderer::Get().Submit(
+		scoreString1,
+		Vector2(0, 0)
+	);
+	sprintf_s(scoreString2, 128, "Score: %d", score2);
+	Renderer::Get().Submit(
+		scoreString2,
+		Vector2(0, 1)
+	);
 }
