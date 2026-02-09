@@ -2,10 +2,9 @@
 #include "Core/Input.h"
 #include "Engine/Engine.h"
 #include "Actor/Ball.h"
+#include "Target.h"
 #include "Level/Level.h"
-
 #include "Game/Game.h"
-
 #include "Interface/ICanPlayerMove.h"
 
 #include <iostream>
@@ -77,8 +76,9 @@ void Player::Tick(float deltaTime)
 		level->GetActorInstance<Ball>(ball);
 		level->GetActorInstance<Player>(player);
 
-		
 		if (tM.empty() || ball.empty()) return;
+		if (ball[0]->IsInFlight()) return;
+
 		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[0]->GetPosition();
 		
@@ -99,6 +99,8 @@ void Player::Tick(float deltaTime)
 
 
 		if (tM.empty() || ball.empty()) return;
+		if (ball[0]->IsInFlight()) return;
+
 		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[1]->GetPosition();
 
@@ -119,6 +121,8 @@ void Player::Tick(float deltaTime)
 
 
 		if (tM.empty() || ball.empty()) return;
+		if (ball[0]->IsInFlight()) return;
+
 		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[2]->GetPosition();
 
@@ -140,6 +144,8 @@ void Player::Tick(float deltaTime)
 
 
 		if (tM.empty() || ball.empty()) return;
+		if (ball[0]->IsInFlight()) return;
+
 		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[3]->GetPosition();
 
@@ -201,17 +207,25 @@ void Player::Tick(float deltaTime)
 
 void Player::Shoot()
 {
-	/*Level* level;
+	Level* level = GetOwner();
+	if (!level) return;
+
 	std::vector<Ball*> ball;
-	level->GetActorInstance<Ball>(ball);*/
+	std::vector<Player*> player;
+	std::vector<Target*> target;
 
-	
+	level->GetActorInstance<Target>(target);
+	level->GetActorInstance<Ball>(ball);
+	level->GetActorInstance<Player>(player);
 
-	// 위치 설정.
-	
 
-	// 액터 생성.
-	GetOwner()->AddNewActor(new Ball(position));
+	if (target.empty() || ball.empty()) return;
+	if (ball[0]->IsInFlight()) return;
+
+	Vector2 bP = player[0]->GetPosition();
+	Vector2 tgP = target[0]->GetPosition();
+
+	ball[0]->setTp(bP, tgP);
 }
 
 bool Player::CanShoot() const
@@ -219,11 +233,6 @@ bool Player::CanShoot() const
 	return false;
 }
 
-bool Player::OwnBall()
-{
-	
-	return false;
-}
 
 void Player::Draw()
 {

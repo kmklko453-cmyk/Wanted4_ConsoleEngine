@@ -13,16 +13,10 @@ class Ball : public Actor
 
 public:
 	Ball(const Vector2& Position);
-
-	//Todo: 삭제예정
-	Ball(const Vector2& Position, const  Vector2& targetPosition);
 	~Ball();
 	
 	virtual void Tick(float deltaTime) override;
 
-	//Todo: 부활 예정 삭제할 수 있음
-	//const Vector2& GetTeamMatePosition(const TeamMate& tM) { return tM.GetPosition(); }
-	
 
 	inline Vector2f ToVector2f(const Vector2& v)
 	{
@@ -33,7 +27,9 @@ public:
 	{
 		return Vector2(static_cast<int>(v.x), static_cast<int>(v.y));
 	}
-	void setTp(const Vector2& start ,const Vector2& v) { SetPosition(start), targetPos = v; }
+	void setTp(const Vector2& start, const Vector2& v) { SetPosition(start); targetPos = v; inFlight = true; }
+
+	inline bool IsInFlight() const {return inFlight;}
 
 
 
@@ -48,6 +44,7 @@ private:
 	Vector2 posT1;
 	Vector2 posT2;
 
+	bool inFlight = false;
 
 
 	
