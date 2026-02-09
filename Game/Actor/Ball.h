@@ -33,6 +33,9 @@ public:
 	{
 		return Vector2(static_cast<int>(v.x), static_cast<int>(v.y));
 	}
+	void setTp(const Vector2& start ,const Vector2& v) { SetPosition(start), targetPos = v; }
+
+
 
 private:
 	//공 날라 가는 속도

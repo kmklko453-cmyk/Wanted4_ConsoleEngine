@@ -70,13 +70,19 @@ void Player::Tick(float deltaTime)
 		if (!level) return;
 
 		std::vector<TeamMate*> tM;
+		std::vector<Ball*> ball;
+		std::vector<Player*> player;
 
 		level->GetActorInstance<TeamMate>(tM);
-	
-		if (tM.size() <= 0)return;
+		level->GetActorInstance<Ball>(ball);
+		level->GetActorInstance<Player>(player);
+
+		
+		if (tM.empty() || ball.empty()) return;
+		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[0]->GetPosition();
 		
-		GetOwner()->AddNewActor(new Ball(position,tMP));
+		ball[0]->setTp(bP,tMP);
 	}
 	if (Input::Get().GetKeyDown('2'))
 	{
@@ -84,28 +90,39 @@ void Player::Tick(float deltaTime)
 		if (!level) return;
 
 		std::vector<TeamMate*> tM;
+		std::vector<Ball*> ball;
+		std::vector<Player*> player;
 
 		level->GetActorInstance<TeamMate>(tM);
+		level->GetActorInstance<Ball>(ball);
+		level->GetActorInstance<Player>(player);
 
-		if (tM.size() <= 1)return;
+
+		if (tM.empty() || ball.empty()) return;
+		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[1]->GetPosition();
 
-		GetOwner()->AddNewActor(new Ball(position, tMP));
+		ball[0]->setTp(bP, tMP);
 	}
-	
 	if (Input::Get().GetKeyDown('3'))
 	{
 		Level* level = GetOwner();
 		if (!level) return;
 
 		std::vector<TeamMate*> tM;
+		std::vector<Ball*> ball;
+		std::vector<Player*> player;
 
 		level->GetActorInstance<TeamMate>(tM);
+		level->GetActorInstance<Ball>(ball);
+		level->GetActorInstance<Player>(player);
 
-		if (tM.size() <= 2)return;
+
+		if (tM.empty() || ball.empty()) return;
+		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[2]->GetPosition();
 
-		GetOwner()->AddNewActor(new Ball(position, tMP));
+		ball[0]->setTp(bP, tMP);
 	}
 
 	if (Input::Get().GetKeyDown('4'))
@@ -114,13 +131,19 @@ void Player::Tick(float deltaTime)
 		if (!level) return;
 
 		std::vector<TeamMate*> tM;
+		std::vector<Ball*> ball;
+		std::vector<Player*> player;
 
 		level->GetActorInstance<TeamMate>(tM);
+		level->GetActorInstance<Ball>(ball);
+		level->GetActorInstance<Player>(player);
 
-		if (tM.size() <= 3)return;
+
+		if (tM.empty() || ball.empty()) return;
+		Vector2 bP = player[0]->GetPosition();
 		Vector2 tMP = tM[3]->GetPosition();
 
-		GetOwner()->AddNewActor(new Ball(position, tMP));
+		ball[0]->setTp(bP, tMP);
 	}
 
 	//// 인터페이스 확인.
@@ -178,8 +201,11 @@ void Player::Tick(float deltaTime)
 
 void Player::Shoot()
 {
-	// 경과 시간 초기화.
-		//elapsedTime = 0.0f;
+	/*Level* level;
+	std::vector<Ball*> ball;
+	level->GetActorInstance<Ball>(ball);*/
+
+	
 
 	// 위치 설정.
 	
@@ -190,6 +216,12 @@ void Player::Shoot()
 
 bool Player::CanShoot() const
 {
+	return false;
+}
+
+bool Player::OwnBall()
+{
+	
 	return false;
 }
 

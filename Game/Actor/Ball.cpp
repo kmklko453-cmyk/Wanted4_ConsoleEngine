@@ -30,13 +30,12 @@ Ball::~Ball()
 void Ball::Tick(float deltaTime)
 {
 	
-	Actor::Tick(deltaTime);
+	super::Tick(deltaTime);
 
 	Level* level = GetOwner();
 	if (!level) return;
 	if (!(targetPos.x == 0 && targetPos.y == 0))
 	{
-
 		Vector2 ballPos = GetPosition();
 
 		Vector2f posT1f = ToVector2f(targetPos);
@@ -60,41 +59,41 @@ void Ball::Tick(float deltaTime)
 		return;
 	}
 
-	std::vector<Target*> targets;
-	std::vector<Player*> player;
-	level->GetActorInstance<Target>(targets);
+	//std::vector<Target*> targets;
+	//std::vector<Player*> player;
+	//level->GetActorInstance<Target>(targets);
 
 
 
-	if (!targets.empty())
-	{
-		posT1 = targets[0]->GetPosition();
-		posT2 = targets[1]->GetPosition();
-		// pos 사용
-	}
+	//if (!targets.empty())
+	//{
+	//	posT1 = targets[0]->GetPosition();
+	//	posT2 = targets[1]->GetPosition();
+	//	// pos 사용
+	//}
 
-	if (targets.empty()) return;
+	//if (targets.empty()) return;
 
-	Vector2 ballPos = GetPosition();
+	//Vector2 ballPos = GetPosition();
 
-	Vector2f posT1f = ToVector2f(posT1);
-	Vector2f posBf = ToVector2f(ballPos);
-
-
-	Vector2f dir;
-	dir.x = posT1f.x - posBf.x;
-	dir.y = posT1f.y - posBf.y;
-
-	float len = sqrt(dir.x * dir.x + dir.y * dir.y);
-
-	float nx = dir.x / len;
-	float ny = dir.y / len;
+	//Vector2f posT1f = ToVector2f(posT1);
+	//Vector2f posBf = ToVector2f(ballPos);
 
 
-	posBf.x += (nx * 10) * moveSpeed * deltaTime;
-	posBf.y += (ny * 10) * moveSpeed * deltaTime;
+	//Vector2f dir;
+	//dir.x = posT1f.x - posBf.x;
+	//dir.y = posT1f.y - posBf.y;
 
-	SetPosition(ToVector2(posBf));
+	//float len = sqrt(dir.x * dir.x + dir.y * dir.y);
+
+	//float nx = dir.x / len;
+	//float ny = dir.y / len;
+
+
+	//posBf.x += (nx * 10) * moveSpeed * deltaTime;
+	//posBf.y += (ny * 10) * moveSpeed * deltaTime;
+
+	//SetPosition(ToVector2(posBf));
 
 
 }

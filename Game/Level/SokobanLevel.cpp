@@ -7,6 +7,7 @@
 #include "Actor/Target.h"
 #include "Actor/Line.h"
 #include "Actor/TeamMate.h"
+#include "Core/Input.h"
 #include "Util/Util.h"
 
 #include <iostream>
@@ -204,6 +205,7 @@ void SokobanLevel::Tick(float deltaTime)
 //Todo: 포지션 변경 구현
 void SokobanLevel::ChangePosition()
 {
+	if (Input::Get().GetKey(VK_SPACE)) return;
 	std::vector<Player*> players;
 	std::vector<Ball*> balls;
 	std::vector<TeamMate*> teamMates;
@@ -226,7 +228,7 @@ void SokobanLevel::ChangePosition()
 				return;
 			}
 		}
-	}
+	} 
 }
 
 bool SokobanLevel::CanMove(

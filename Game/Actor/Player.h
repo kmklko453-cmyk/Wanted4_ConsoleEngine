@@ -20,7 +20,8 @@ private:
 	// 발사 가능여부 확인 함수.
 	bool CanShoot() const;
 
-	//팀 동료 패스 키
+	//공 소유 여부
+	bool OwnBall();
 
 
 	
