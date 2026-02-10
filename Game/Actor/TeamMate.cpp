@@ -1,8 +1,9 @@
 #include "TeamMate.h"
 #include "Math/Vector2F.h"
 TeamMate::TeamMate(const char* image, const Vector2& position, Color color, Vector2 aPosition)
-	:super(image,position,color), AttackPos(aPosition)
+	:super(image, position, color), AttackPos(aPosition)
 {
+	homePos = position;
 	sortingOrder = 10;
 
 }
@@ -11,6 +12,9 @@ void TeamMate::Tick(float deltaTime)
 {
 
 	super::Tick(deltaTime);
+
+	if (!hasTarget) return;
+	
 
 
 	Vector2 ballPos = GetPosition();
@@ -26,8 +30,8 @@ void TeamMate::Tick(float deltaTime)
 	float len = sqrt(dir.x * dir.x + dir.y * dir.y);
 	if (len < 0.001f)
 	{
-		//inFlight = false;
-		//ResolveContactOwnership();
+		SetPosition(targetPos); // Á¤Âø
+		hasTarget = false;
 		return;
 	}
 
@@ -39,6 +43,8 @@ void TeamMate::Tick(float deltaTime)
 	posBf.y += (ny * 5) * moveSpeed * deltaTime;
 
 	SetPosition(ToVector2(posBf));
+	
+
 
 }
 

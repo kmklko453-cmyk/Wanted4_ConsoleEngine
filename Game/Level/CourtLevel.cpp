@@ -1,4 +1,4 @@
-#include "SokobanLevel.h"
+#include "CourtLevel.h"
 #include "Actor/Actor.h"
 #include "Actor/Player1.h"
 #include "Actor/Player2.h"
@@ -22,7 +22,7 @@ b: 박스(Box)
 t: 타겟(Target)
 */
 
-SokobanLevel::SokobanLevel()
+CourtLevel::CourtLevel()
 {
 	// TestActor 액터를 레벨에 추가.
 	//AddNewActor(new Player());
@@ -30,7 +30,7 @@ SokobanLevel::SokobanLevel()
 	LoadMap("court.txt");
 }
 
-void SokobanLevel::Draw()
+void CourtLevel::Draw()
 {
 	super::Draw();
 
@@ -47,7 +47,7 @@ void SokobanLevel::Draw()
 	ShowScore();
 }
 
-void SokobanLevel::LoadMap(const char* filename)
+void CourtLevel::LoadMap(const char* filename)
 {
 	// 파일 로드.
 	// 최종 파일 경로 만들기. ("../Assets/filename")
@@ -153,41 +153,41 @@ void SokobanLevel::LoadMap(const char* filename)
 			break;
 
 		case '1':
-			AddNewActor(new TeamMate("1", position, Color::Red,Vector2(80,5)));
+			AddNewActor(new TeamMate("1", Vector2(16,10), Color::Red, Vector2(86, 5)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '2':
-			AddNewActor(new TeamMate("2", position, Color::Red, Vector2(68, 8)));
+			AddNewActor(new TeamMate("2", Vector2(23,10), Color::Red, Vector2(67, 9)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '3':
-			AddNewActor(new TeamMate("3", position, Color::Red, Vector2(62, 24)));
+			AddNewActor(new TeamMate("3", Vector2(16,23), Color::Red, Vector2(67, 23)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '4':
-			AddNewActor(new TeamMate("4", position, Color::Red, Vector2(75, 26)));
+			AddNewActor(new TeamMate("4", Vector2(23,23), Color::Red, Vector2(86, 27)));
 			AddNewActor(new Ground(position));
 			break;
 		case 's':
-			AddNewActor(new TeamMate("1", position, Color::Green, Vector2(5, 80)));
+			AddNewActor(new TeamMate("1", Vector2(15, 5), Color::Green, Vector2(76, 10)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case 'h':
-			AddNewActor(new TeamMate("2", position, Color::Green, Vector2(5, 80)));
+			AddNewActor(new TeamMate("2", Vector2(38, 9) , Color::Green, Vector2(81, 10)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case 'i':
-			AddNewActor(new TeamMate("3", position, Color::Green, Vector2(5, 80)));
+			AddNewActor(new TeamMate("3", Vector2(38, 20), Color::Green, Vector2(76, 24)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case 'n':
-			AddNewActor(new TeamMate("4", position, Color::Green, Vector2(5, 80)));
+			AddNewActor(new TeamMate("4", Vector2(15, 28), Color::Green, Vector2(81, 24)));
 			AddNewActor(new Ground(position));
 			break;
 
@@ -222,16 +222,16 @@ void SokobanLevel::LoadMap(const char* filename)
 	fclose(file);
 }
 
-void SokobanLevel::Tick(float deltaTime)
+void CourtLevel::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 
 	ChangePosition();
-	CheckGameClear();
+	ScoreSet();
 }
 
 //Todo: 포지션 변경 구현
-void SokobanLevel::ChangePosition()
+void CourtLevel::ChangePosition()
   {
   	std::vector<PlayerBase*> players;
   	std::vector<Ball*> balls;
@@ -298,7 +298,7 @@ void SokobanLevel::ChangePosition()
   	}
   }
 
-  bool SokobanLevel::CanMove(
+  bool CourtLevel::CanMove(
 	  const Wanted::Vector2& nextPosition)
   {
 	  // 이동하려는 곳에 박스가 없는 경우.
@@ -325,7 +325,7 @@ void SokobanLevel::ChangePosition()
   }
 	 
 
-  void SokobanLevel::CheckGameClear()
+  void CourtLevel::ScoreSet()
   {
 	  
 
@@ -342,7 +342,7 @@ void SokobanLevel::ChangePosition()
 
 	  if (ball.empty() || targets.empty()||teamMates.empty()||players.empty())return;
 
-	  // 두 액터의 위치가 같으면 점수 +.
+
 	  if (ball[0]->TestIntersect(targets[0]))
 	  {
 		  score1 += 1;
@@ -350,26 +350,29 @@ void SokobanLevel::ChangePosition()
 		  for (TeamMate* tm : teamMates)
 		  {
 			  tm->setTp(tm->GetH(), tm->GetA());
+			  players[0]->SetPosition(Vector2(13, 20));
 		  }
 	  }
 	  else if (ball[0]->TestIntersect(targets[1]))
 	  {
 		  score2 += 1;
 		  ball[0]->SetOwnActor(players[1]);
+		 for (TeamMate* tm : teamMates)
+		  {
+			  tm->setTp(tm->GetA(),tm->GetH());
+			  players[1]->SetPosition(Vector2(89, 20));
+		  }
 	  }
+	  
 
   }
 
-  void SokobanLevel::ShowScore()
+  void CourtLevel::ShowScore()
   {
-	  sprintf_s(scoreString1, 128, "Score: %d", score1);
-	  Renderer::Get().Submit(
-		  scoreString1,
-		  Vector2(0, 0)
-	  );
-	  sprintf_s(scoreString2, 128, "Score: %d", score2);
-	  Renderer::Get().Submit(
-		  scoreString2,
-		  Vector2(0, 1)
-	  );
+	  sprintf_s(scoreString1, 128, "Score: %d", score2);
+	  Renderer::Get().Submit(scoreString1,Vector2(0, 0),Color::Red);
+
+	  sprintf_s(scoreString2, 128, "Score2: %d", score1 );
+	  Renderer::Get().Submit(scoreString2,Vector2(0, 1),Color::Green);
   }
+

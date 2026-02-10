@@ -3,14 +3,14 @@
 #include "Level/Level.h"
 #include "Interface/ICanPlayerMove.h"
 
-class SokobanLevel 
+class CourtLevel 
 	: public Wanted::Level, 
 	public ICanPlayerMove
 {
-	RTTI_DECLARATIONS(SokobanLevel, Level)
+	RTTI_DECLARATIONS(CourtLevel, Level)
 
 public:
-	SokobanLevel();
+	CourtLevel();
 
 	// 이벤트 함수 오버라이드.
 	virtual void Draw() override;
@@ -28,7 +28,7 @@ private:
 	virtual bool CanMove(const Wanted::Vector2& nextPosition) override;
 
 	// 게임 클리어 확인 함수.
-	void CheckGameClear();
+	void ScoreSet();
 
 	// 점수 보여주는 함수.
 	void ShowScore();

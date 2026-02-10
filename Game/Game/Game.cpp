@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Level/SokobanLevel.h"
+#include "Level/CourtLevel.h"
 #include "Level/MenuLevel.h"
 
 #include <iostream>
@@ -12,7 +12,7 @@ Game::Game()
 	instance = this;
 
 	// 두 레벨 생성 및 배열에 추가.
-	levels.emplace_back(new SokobanLevel());
+	levels.emplace_back(new CourtLevel());
 	levels.emplace_back(new MenuLevel());
 
 	// 시작 상태(레벨) 설정.

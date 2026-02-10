@@ -36,8 +36,8 @@ void Ball::Tick(float deltaTime)
 		level->GetActorInstance<PlayerBase>(players);
 		if (players.empty()) return;
 
-		SetOwnActor(players[0]);
-		SetLastPlayer(players[0]);
+		SetOwnActor(players[1]);
+		SetLastPlayer(players[1]);
 
 	}
 
@@ -67,7 +67,7 @@ void Ball::Tick(float deltaTime)
 		if (len < 0.001f)
 		{
 			inFlight = false;
-			//ResolveContactOwnership();
+			SetPosition(targetPos);
 			return;
 		}
 

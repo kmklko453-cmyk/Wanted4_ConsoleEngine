@@ -22,7 +22,7 @@ public:
 		return Vector2(static_cast<int>(v.x), static_cast<int>(v.y));
 	}
 
-	void setTp(const Vector2& start, const Vector2& v) { SetPosition(start); targetPos = v; }
+	void setTp(const Vector2& start, const Vector2& v) { SetPosition(start); targetPos = v, hasTarget = true;}
 
 	Vector2 GetH() const { return homePos; }
 	Vector2 GetA() const { return AttackPos;}
@@ -32,6 +32,9 @@ private:
 	virtual void Tick(float deltaTime) override;
 
 	Vector2 targetPos;
+
+	//득점 전 TeamMate 고정용
+	bool hasTarget = false;
 
 	float moveSpeed = 5.0f;
 
