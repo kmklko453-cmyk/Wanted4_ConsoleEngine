@@ -333,9 +333,11 @@ void SokobanLevel::ChangePosition()
 	  // 배열에 박스 및 타겟 저장.
 	  std::vector<Ball*> ball;
 	  std::vector<Target*> targets;
+	  std::vector<PlayerBase*> players;
 
 	  GetActorInstance<Ball>(ball);
 	  GetActorInstance<Target>(targets);
+	  GetActorInstance<PlayerBase> (players);
 
 	  if (ball.empty() || targets.empty())return;
 
@@ -343,10 +345,12 @@ void SokobanLevel::ChangePosition()
 	  if (ball[0]->TestIntersect(targets[0]))
 	  {
 		  score1 += 1;
+		  ball[0]->SetOwnActor(players[0]);
 	  }
 	  else if (ball[0]->TestIntersect(targets[1]))
 	  {
 		  score2 += 1;
+		  ball[0]->SetOwnActor(players[1]);
 	  }
 
   }
