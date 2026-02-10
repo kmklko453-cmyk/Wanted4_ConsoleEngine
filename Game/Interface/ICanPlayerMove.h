@@ -10,8 +10,5 @@ public:
 	// 플레이어가 이동가능한지 문의할 때 사용할 함수.
 	// playerPosition: 플레이어의 현재 위치.
 	// nextPosition: 플레이어가 이동하려는 위치.
-	virtual bool CanMove(
-		const Wanted::Vector2& playerPosition,
-		const Wanted::Vector2& nextPosition
-	) = 0;
+	virtual bool CanMove(const Wanted::Vector2& nextPosition) = 0;
 };

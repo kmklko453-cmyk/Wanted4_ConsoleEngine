@@ -41,25 +41,29 @@ void Player2::Tick(float deltaTime)
 
 	if (Input::Get().GetKeyDown(VK_DELETE))
 	{
-		PlayerBase::Shoot(0);
+		TryPassToMate(0);
 	}
 
 	if (Input::Get().GetKeyDown('7'))
 	{
-		PlayerBase::TryPassToMate(2);
+		TryPassToMate(2);
+		ChangeDepensePosition(2);
 	}
 	if (Input::Get().GetKeyDown('8'))
 	{
-		PlayerBase::TryPassToMate(3);
+		TryPassToMate(3);
+		ChangeDepensePosition(3);
 	}
 	if (Input::Get().GetKeyDown('9'))
 	{
-		PlayerBase::TryPassToMate(6);
+		TryPassToMate(6);
+		ChangeDepensePosition(6);
 	}
 
 	if (Input::Get().GetKeyDown('0'))
 	{
-		PlayerBase::TryPassToMate(7);
+		TryPassToMate(7);
+		ChangeDepensePosition(7);
 	}
 
 	//// 인터페이스 확인.
@@ -77,7 +81,7 @@ void Player2::Tick(float deltaTime)
 	{
 		// 이동 가능 여부 판단.
 		Vector2 newPosition(GetPosition().x + 1, GetPosition().y);
-		if (canPlayerMoveInterface->CanMove(GetPosition(), newPosition))
+		if (canPlayerMoveInterface->CanMove(newPosition))
 		{
 			SetPosition(newPosition);
 		}
@@ -87,7 +91,7 @@ void Player2::Tick(float deltaTime)
 	{
 		// 이동 가능 여부 판단.
 		Vector2 newPosition(GetPosition().x - 1, GetPosition().y);
-		if (canPlayerMoveInterface->CanMove(GetPosition(), newPosition))
+		if (canPlayerMoveInterface->CanMove(newPosition))
 		{
 			SetPosition(newPosition);
 		}
@@ -97,7 +101,7 @@ void Player2::Tick(float deltaTime)
 	{
 		// 이동 가능 여부 판단.
 		Vector2 newPosition(GetPosition().x, GetPosition().y + 1);
-		if (canPlayerMoveInterface->CanMove(GetPosition(), newPosition))
+		if (canPlayerMoveInterface->CanMove(newPosition))
 		{
 			SetPosition(newPosition);
 		}
@@ -107,7 +111,7 @@ void Player2::Tick(float deltaTime)
 	{
 		// 이동 가능 여부 판단.
 		Vector2 newPosition(GetPosition().x, GetPosition().y - 1);
-		if (canPlayerMoveInterface->CanMove(GetPosition(), newPosition))
+		if (canPlayerMoveInterface->CanMove(newPosition))
 		{
 			SetPosition(newPosition);
 		}

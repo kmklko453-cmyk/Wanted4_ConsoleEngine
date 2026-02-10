@@ -25,9 +25,7 @@ private:
 	void ChangePosition();
 
 	// Inherited via ICanPlayerMove
-	virtual bool CanMove(
-		const Wanted::Vector2& playerPosition, 
-		const Wanted::Vector2& nextPosition) override;
+	virtual bool CanMove(const Wanted::Vector2& nextPosition) override;
 
 	// 게임 클리어 확인 함수.
 	void CheckGameClear();

@@ -65,20 +65,40 @@ void PlayerBase::TryPassToMate(int index)
 	if (!level) return;
 
 	std::vector<Ball*> ball;
-	std::vector<TeamMate*> tM;
+	std::vector<TeamMate*> teamMates;
 
-	level->GetActorInstance<TeamMate>(tM);
+	level->GetActorInstance<TeamMate>(teamMates);
 	level->GetActorInstance<Ball>(ball);
 
 
-	if (tM.empty() || ball.empty()) return;
+	if (teamMates.empty() || ball.empty()) return;
 	if (ball[0]->IsInFlight()) return;
 	if (!ball[0]->IsOwnedBy(this)) return;
 
 	Vector2 bP = GetPosition();
-	Vector2 tMP = tM[index]->GetPosition();
+	Vector2  teamMatePosition= teamMates[index]->GetPosition();
 
-	ball[0]->setTp(bP, tMP);
+	ball[0]->setTp(bP, teamMatePosition);
+}
+
+void PlayerBase::ChangeDepensePosition(int index)
+{
+	Level* level = GetOwner();
+	if (!level) return;
+
+	std::vector<Ball*> ball;
+	level->GetActorInstance<Ball>(ball);
+	
+	if (!ball[0]->IsOwnedBy(this))
+	{
+		std::vector<TeamMate*> teamMates;
+		level->GetActorInstance<TeamMate>(teamMates);
+
+		Vector2 teamMatePosition = teamMates[index]->GetPosition();
+		Vector2 temp = GetPosition();
+		SetPosition(teamMatePosition);
+		teamMates[index]->SetPosition(temp);
+	}
 }
 
 

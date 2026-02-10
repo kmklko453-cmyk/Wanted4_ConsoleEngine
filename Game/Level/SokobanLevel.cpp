@@ -50,7 +50,7 @@ void SokobanLevel::Draw()
 void SokobanLevel::LoadMap(const char* filename)
 {
 	// 파일 로드.
- 	// 최종 파일 경로 만들기. ("../Assets/filename")
+	// 최종 파일 경로 만들기. ("../Assets/filename")
 	char path[2048] = {};
 	sprintf_s(path, 2048, "../Assets/%s", filename);
 
@@ -232,201 +232,135 @@ void SokobanLevel::Tick(float deltaTime)
 
 //Todo: 포지션 변경 구현
 void SokobanLevel::ChangePosition()
-{
-	std::vector<PlayerBase*> players;
-	std::vector<Ball*> balls;
-	std::vector<TeamMate*> teamMates;
-	GetActorInstance<Ball>(balls);
-	GetActorInstance<TeamMate>(teamMates);
-	GetActorInstance<PlayerBase>(players);
-	if (players.empty() || balls.empty() || teamMates.empty())
-		return;
+  {
+  	std::vector<PlayerBase*> players;
+  	std::vector<Ball*> balls;
+  	std::vector<TeamMate*> teamMates;
+  	GetActorInstance<Ball>(balls);
+  	GetActorInstance<TeamMate>(teamMates);
+  	GetActorInstance<PlayerBase>(players);
+  	if (players.empty() || balls.empty() || teamMates.empty())
+  		return;
+  
+  
+  	for (Ball* const ball : balls)
+  	{
+  		PlayerBase* lastPlayer = ball->GetLastPlayer();
+  		if (!lastPlayer) continue;
 
-
-	for (Ball* const ball : balls)
-	{
-		PlayerBase* lastPlayer = ball->GetLastPlayer();
-		if (!lastPlayer) continue;
-		for (TeamMate* const teamMate : teamMates)
+		for (PlayerBase* player : players)
 		{
-			if (!ball->TestIntersect(teamMate)) continue;
-			//팀원과 같은 색의 플레이어 찾기
-			PlayerBase* teamPlayer = nullptr;
-			for (PlayerBase* player : players)
-			{
-				if (player && player->GetColor() == teamMate->GetColor())
-				{
-					teamPlayer = player;
-					break;
-				}
-			}
-				if (teamPlayer == lastPlayer)
-				{	
-					//같은 팀 패스 공 : lastplayer <-> 팀원 스왑
-					Vector2 temp = lastPlayer->GetPosition();
-					lastPlayer->SetPosition(teamMate->GetPosition());
-					teamMate->SetPosition(temp);
+			if (!player) continue;
+			if (player == ball->GetOwnActor()) continue;   // 이미 소유자면 스킵
+			if (!ball->TestIntersect(player)) continue;
 
-					ball->SetOwnActor(lastPlayer);
-				}
-				else
-				{
-					//상대 팀원 접촉 : 상대 플레이어 <-> 팀원 스왑 + 소유권 변경
-					Vector2 temp = teamPlayer->GetPosition();
-					teamPlayer->SetPosition(teamMate->GetPosition());
-					teamMate->SetPosition(temp);
+			ball->SetOwnActor(player);
+			ball->SetLastPlayer(player);                  // 필요 없으면 이 줄 빼도 됨
+			ball->setTp(ball->GetPosition(), ball->GetOwnActor()->GetPosition()); // 공 정지/타겟 초기화 의도면 유지
+			break; // 플레이어 충돌 처리했으면 팀메이트 처리 넘어갈지 말지 정책에 따라 break/return
+		}
 
-					ball->SetOwnActor(teamPlayer);
-				}
+
+  		for (TeamMate* const teamMate : teamMates)
+  		{
 			
-		}
-	}
-}
+  			if (!ball->TestIntersect(teamMate)) continue;
+  			//팀원과 같은 색의 플레이어 찾기
+  			PlayerBase* teamPlayer = nullptr;
+  			for (PlayerBase* player : players)
+  			{
+  				if (player && player->GetColor() == teamMate->GetColor())
+  				{
+  					teamPlayer = player;
+  					break;
+  				}
+  			}
+  				if (teamPlayer == lastPlayer)
+  				{	
+  					//같은 팀 패스 공 : lastplayer <-> 팀원 스왑
+  					Vector2 temp = lastPlayer->GetPosition();
+  					lastPlayer->SetPosition(teamMate->GetPosition());
+  					teamMate->SetPosition(temp);
+  
+  					ball->SetOwnActor(lastPlayer);
+  				}
+  				else
+  				{
+  					//상대 팀원 접촉 : 상대 플레이어 <-> 팀원 스왑 + 소유권 변경
+  					Vector2 temp = teamPlayer->GetPosition();
+  					teamPlayer->SetPosition(teamMate->GetPosition());
+  					teamMate->SetPosition(temp);
+  
+  					ball->SetOwnActor(teamPlayer);
+  				}
+  			
+  		}
+  	}
+  }
 
-bool SokobanLevel::CanMove(
-	const Wanted::Vector2& playerPosition,
-	const Wanted::Vector2& nextPosition)
-{
-	// 레벨에 있는 박스 액터 모으기.
-	// 박스는 플레이어가 밀기 등 추가적으로 처리해야하기 때문.
-	std::vector<Actor*> boxes;
+  bool SokobanLevel::CanMove(
+	  const Wanted::Vector2& nextPosition)
+  {
+	  // 이동하려는 곳에 박스가 없는 경우.
+	  // -> 이동하려는 곳에 있는 액터가 벽이 아니면 이동 가능.
+	  for (Actor* const actor : actors)
+	  {
+		  // 먼저, 이동하려는 위치에 있는 액터 검색.
+		  if (actor->GetPosition() == nextPosition)
+		  {
+			  // 이 액터가 벽인지 확인.
+			  if (actor->IsTypeOf<Wall>())
+			  {
+				  return false;
+			  }
 
-	// 레벨에 배치된 전체 액터를 순회하면서 박스 찾기.
-	for (Actor* const actor : actors)
-	{
-		// 액터가 박스 타입인지 확인.
-		if (actor->IsTypeOf<Ball>())
-		{
-			boxes.emplace_back(actor);
-			continue;
-		}
-	}
+			  // 그라운드 또는 타겟.
+			  return true;
+		  }
+	  }
+ // 에러.
+	  return false;
+   //canmove
+ 
+  }
+	 
 
-	// 이동하려는 위치에 박스가 있는지 확인.
-	Actor* boxActor = nullptr;
-	for (Actor* const box : boxes)
-	{
-		// 위치 비교.
-		if (box->GetPosition() == nextPosition)
-		{
-			boxActor = box;
-			break;
-		}
-	}
+  void SokobanLevel::CheckGameClear()
+  {
+	  // 타겟 위에 있는 박스의 수 검증.
+	  int currentScore = 0;
 
-	// 경우의 수 처리.
-	// 이동하려는 곳에 박스가 있는 경우.
-	if (boxActor)
-	{
-		// #1: 박스를 이동시키려는 위치에 다른 박스가 또 있는지 확인.
-		// 두 위치 사이에서 이동 방향 구하기 (벡터의 뺄셈 활용).
-		// 이동 로직에서 두 벡터를 더한다는 것은
-		// 둘 중 하나는 위치(Location)이고 다른 하나는 벡터(Vector).
-		Vector2 direction = nextPosition - playerPosition;
-		Vector2 newPosition = boxActor->GetPosition() + direction;
+	  // 배열에 박스 및 타겟 저장.
+	  std::vector<Ball*> ball;
+	  std::vector<Target*> targets;
 
-		// 박스 검색.
-		for (Actor* const otherBox : boxes)
-		{
-			// 앞에서 검색한 박스와 같다면 건너뛰기.
-			if (otherBox == boxActor)
-			{
-				continue;
-			}
+	  GetActorInstance<Ball>(ball);
+	  GetActorInstance<Target>(targets);
 
-			// 다른 박스가 있는지 확인.
-			if (otherBox->GetPosition() == newPosition)
-			{
-				// 두 개의 박스가 겹쳐진 방향으로는 이동 못함.
-				return false;
-			}
-		}
+	  if (ball.empty() || targets.empty())return;
 
-		// 검색.
-		for (Actor* const actor : actors)
-		{
-			if (actor->GetPosition() == newPosition)
-			{
-				// #2: 벽이면 이동 불가.
-				if (actor->IsTypeOf<Wall>())
-				{
-					return false;
-				}
+	  // 두 액터의 위치가 같으면 점수 +.
+	  if (ball[0]->TestIntersect(targets[0]))
+	  {
+		  score1 += 1;
+	  }
+	  else if (ball[0]->TestIntersect(targets[1]))
+	  {
+		  score2 += 1;
+	  }
 
-				//3: 그라운드 또는 타겟이면 이동 가능.
-				if (actor->IsTypeOf<Ground>() || actor->IsTypeOf<Target>() || actor->IsTypeOf<Line>())
-				{
-					// 박스 이동 처리.
-					boxActor->SetPosition(newPosition);
+  }
 
-					// 게임 점수 확인.
-					//isGameClear = CheckGameClear();
-
-					// 플레이어 이동 가능.
-					return true;
-				}
-			}
-		}
-	}
-
-	// 이동하려는 곳에 박스가 없는 경우.
-	// -> 이동하려는 곳에 있는 액터가 벽이 아니면 이동 가능.
-	for (Actor* const actor : actors)
-	{
-		// 먼저, 이동하려는 위치에 있는 액터 검색.
-		if (actor->GetPosition() == nextPosition)
-		{
-			// 이 액터가 벽인지 확인.
-			if (actor->IsTypeOf<Wall>())
-			{
-				return false;
-			}
-
-			// 그라운드 또는 타겟.
-			return true;
-		}
-	}
-
-	// 에러.
-	return false;
-} //canmove
-
-void SokobanLevel::CheckGameClear()
-{
-	// 타겟 위에 있는 박스의 수 검증.
-	int currentScore = 0;
-
-	// 배열에 박스 및 타겟 저장.
-	std::vector<Ball*> ball;
-	std::vector<Target*> targets;
-
-	GetActorInstance<Ball>(ball);
-	GetActorInstance<Target>(targets);
-
-	if (ball.empty() || targets.empty())return;
-
-	// 두 액터의 위치가 같으면 점수 +.
-	if (ball[0]->TestIntersect(targets[0]))
-	{
-		score1 += 1;
-	}
-	else if(ball[0]->TestIntersect(targets[1]))
-	{
-		score2 += 1;
-	}
-
-}
-
-void SokobanLevel::ShowScore()
-{
-	sprintf_s(scoreString1, 128, "Score: %d", score1);
-	Renderer::Get().Submit(
-		scoreString1,
-		Vector2(0, 0)
-	);
-	sprintf_s(scoreString2, 128, "Score: %d", score2);
-	Renderer::Get().Submit(
-		scoreString2,
-		Vector2(0, 1)
-	);
-}
+  void SokobanLevel::ShowScore()
+  {
+	  sprintf_s(scoreString1, 128, "Score: %d", score1);
+	  Renderer::Get().Submit(
+		  scoreString1,
+		  Vector2(0, 0)
+	  );
+	  sprintf_s(scoreString2, 128, "Score: %d", score2);
+	  Renderer::Get().Submit(
+		  scoreString2,
+		  Vector2(0, 1)
+	  );
+  }
