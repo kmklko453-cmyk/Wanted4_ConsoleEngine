@@ -41,7 +41,7 @@ void Player2::Tick(float deltaTime)
 
 	if (Input::Get().GetKeyDown(VK_DELETE))
 	{
-		PlayerBase::Shoot(1);
+		PlayerBase::Shoot(0);
 	}
 
 	if (Input::Get().GetKeyDown('7'))

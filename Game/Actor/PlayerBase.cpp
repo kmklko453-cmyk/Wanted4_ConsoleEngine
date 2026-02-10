@@ -45,6 +45,8 @@ void PlayerBase::Shoot(int index)
 
 	if (target.empty() || ball.empty()) return;
 	if (ball[0]->IsInFlight()) return;
+	if (!ball[0]->IsOwnedBy(this)) return;
+	
 
 	Vector2 pP = GetPosition();
 	Vector2 tgP = target[index]->GetPosition();
@@ -71,6 +73,7 @@ void PlayerBase::TryPassToMate(int index)
 
 	if (tM.empty() || ball.empty()) return;
 	if (ball[0]->IsInFlight()) return;
+	if (!ball[0]->IsOwnedBy(this)) return;
 
 	Vector2 bP = GetPosition();
 	Vector2 tMP = tM[index]->GetPosition();

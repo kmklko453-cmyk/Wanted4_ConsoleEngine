@@ -44,8 +44,8 @@ namespace Wanted
 		inline void SetOwner(Level* newOwner) { owner = newOwner; }
 		inline Level* GetOwner() const { return owner; }
 
-
-		// Getter.
+		
+		
 		inline bool HasBeganPlay() const
 		{
 			return hasBeganPlay;
@@ -62,6 +62,8 @@ namespace Wanted
 		}
 
 		inline int GetSortingOrder() const { return sortingOrder; }
+
+		inline Color GetColor() const { return color; }
 
 	protected:
 		// 이미 BeginPlay 이벤트를 받았는지 여부.

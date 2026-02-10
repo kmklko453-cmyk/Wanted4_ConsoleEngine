@@ -22,6 +22,7 @@ protected:
 	// 동료한테 패스 하는 함수
 	virtual void TryPassToMate(int index);
 
+	
 
 
 

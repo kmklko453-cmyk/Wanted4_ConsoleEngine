@@ -28,17 +28,29 @@ void Ball::Tick(float deltaTime)
 
 	Level* level = GetOwner();
 	if (!level) return;
-	if (!inFlight)
+
+	if (!ownerActor)
+	{	
+
+		std::vector<PlayerBase*> players;
+		level->GetActorInstance<PlayerBase>(players);
+		if (players.empty()) return;
+
+		SetOwnActor(players[0]);
+		SetLastPlayer(players[0]);
+
+	}
+
+	if (!inFlight && ownerActor)
 	{
-		std::vector<PlayerBase*> player;
-		level->GetActorInstance<PlayerBase>(player);
-		Vector2 playerSideBallP = player[0]->GetPosition();
-		if (player.empty())return;
-		SetPosition(Vector2(playerSideBallP.x + 1, playerSideBallP.y));
+		
+		SetPosition(ownerActor->GetPosition());
+		//ResolveContactOwnership();
+		
 	}
 
 
-
+	//비행상태 판단
 	if (!(targetPos.x == 0 && targetPos.y == 0))
 	{
 		Vector2 ballPos = GetPosition();
@@ -55,7 +67,7 @@ void Ball::Tick(float deltaTime)
 		if (len < 0.001f)
 		{
 			inFlight = false;
-			targetPos = Vector2::Zero;
+			//ResolveContactOwnership();
 			return;
 		}
 
@@ -63,10 +75,62 @@ void Ball::Tick(float deltaTime)
 		float ny = dir.y / len;
 
 
-		posBf.x += (nx*10) * moveSpeed * deltaTime;
-		posBf.y += (ny*10) * moveSpeed * deltaTime;
+		posBf.x += (nx*5) * moveSpeed * deltaTime;
+		posBf.y += (ny*5) * moveSpeed * deltaTime;
 
 		SetPosition(ToVector2(posBf));
 		return;
 	}
+}
+
+void Ball::ResolveContactOwnership()
+{
+
+	Level* level = GetOwner();
+	if (!level) return;
+
+	std::vector<PlayerBase*> players;
+	std::vector<TeamMate*> mates;
+	level->GetActorInstance<TeamMate>(mates);
+	level->GetActorInstance<PlayerBase>(players);
+
+	
+	for (PlayerBase* player : players)
+	{
+		if (!player || player == ownerActor) continue;
+		
+		if (TestIntersect(player))
+		{
+			SetOwnActor(player);
+			SetLastPlayer(player);
+			targetPos = Vector2::Zero;
+		
+			return;
+		}
+	}
+
+	for (TeamMate* mate : mates)
+	{
+		if (!mate || mate == ownerActor) continue;
+		PlayerBase* teamPlayer = nullptr;
+		for (PlayerBase* player : players)
+		{
+			if (player && player->GetColor() == mate->GetColor())
+			{
+				teamPlayer = player;
+				break;
+			}
+		}
+		if (teamPlayer)
+		{
+			SetOwnActor(teamPlayer);
+			// lastPlayer는 패스/슛 시점에 유지(스왑 로직용)
+
+			inFlight = false;
+			targetPos = Vector2::Zero;
+	
+			return;
+		}
+	}
+	
 }

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Actor/Actor.h"
-#include "actor/TeamMate.h"
+#include "TeamMate.h"
+#include "PlayerBase.h"
 #include "Math/Vector2f.h"
 
 using namespace Wanted;
@@ -31,6 +32,15 @@ public:
 
 	inline bool IsInFlight() const {return inFlight;}
 
+	void SetOwnActor(Actor* actor) { ownerActor = actor; }
+	Actor* GetOwnActor()  const { return ownerActor; }
+
+	void SetLastPlayer(PlayerBase* playerBase) { lastPlayer = playerBase; }
+	PlayerBase* GetLastPlayer() const { return lastPlayer; }
+
+	bool IsOwnedBy(const Actor* actor) const { return ownerActor == actor; }
+
+	void ResolveContactOwnership();
 
 
 private:
@@ -45,6 +55,14 @@ private:
 	Vector2 posT2;
 
 	bool inFlight = false;
+
+	//공의 소유자 
+	Actor* ownerActor = nullptr;
+
+	//마지막으로 패스 슛한 플레이어
+	PlayerBase* lastPlayer = nullptr;
+
+	float ownerShipCoolDown = 1.0f;
 
 
 	

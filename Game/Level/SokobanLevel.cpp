@@ -50,7 +50,7 @@ void SokobanLevel::Draw()
 void SokobanLevel::LoadMap(const char* filename)
 {
 	// 파일 로드.
-	// 최종 파일 경로 만들기. ("../Assets/filename")
+ 	// 최종 파일 경로 만들기. ("../Assets/filename")
 	char path[2048] = {};
 	sprintf_s(path, 2048, "../Assets/%s", filename);
 
@@ -233,7 +233,6 @@ void SokobanLevel::Tick(float deltaTime)
 //Todo: 포지션 변경 구현
 void SokobanLevel::ChangePosition()
 {
-	if (Input::Get().GetKey(VK_SPACE)) return;
 	std::vector<PlayerBase*> players;
 	std::vector<Ball*> balls;
 	std::vector<TeamMate*> teamMates;
@@ -246,15 +245,40 @@ void SokobanLevel::ChangePosition()
 
 	for (Ball* const ball : balls)
 	{
-		for (TeamMate* const tM : teamMates)
+		PlayerBase* lastPlayer = ball->GetLastPlayer();
+		if (!lastPlayer) continue;
+		for (TeamMate* const teamMate : teamMates)
 		{
-			if (ball->TestIntersect(tM))
+			if (!ball->TestIntersect(teamMate)) continue;
+			//팀원과 같은 색의 플레이어 찾기
+			PlayerBase* teamPlayer = nullptr;
+			for (PlayerBase* player : players)
 			{
-				Vector2 temp = players[0]->GetPosition();
-				players[0]->SetPosition(tM->GetPosition());
-				tM->SetPosition(temp);
-				return;
+				if (player && player->GetColor() == teamMate->GetColor())
+				{
+					teamPlayer = player;
+					break;
+				}
 			}
+				if (teamPlayer == lastPlayer)
+				{	
+					//같은 팀 패스 공 : lastplayer <-> 팀원 스왑
+					Vector2 temp = lastPlayer->GetPosition();
+					lastPlayer->SetPosition(teamMate->GetPosition());
+					teamMate->SetPosition(temp);
+
+					ball->SetOwnActor(lastPlayer);
+				}
+				else
+				{
+					//상대 팀원 접촉 : 상대 플레이어 <-> 팀원 스왑 + 소유권 변경
+					Vector2 temp = teamPlayer->GetPosition();
+					teamPlayer->SetPosition(teamMate->GetPosition());
+					teamMate->SetPosition(temp);
+
+					ball->SetOwnActor(teamPlayer);
+				}
+			
 		}
 	}
 }

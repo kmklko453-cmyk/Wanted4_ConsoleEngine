@@ -49,7 +49,7 @@ void Player1::Tick(float deltaTime)
 
 	if (Input::Get().GetKeyDown('F'))
 	{
-		PlayerBase::Shoot(0);
+		PlayerBase::Shoot(1);
 	}
 
 	if (Input::Get().GetKeyDown('1'))
