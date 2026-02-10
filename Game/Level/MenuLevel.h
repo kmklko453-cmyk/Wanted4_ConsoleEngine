@@ -45,11 +45,15 @@ public:
 	MenuLevel();
 	~MenuLevel();
 
+	void FileRead(const char* filename);
 	// 이벤트 함수 오버라이드.
 	virtual void Tick(float deltaTime) override;
 	virtual void Draw() override;
 
+
 private:
+	// 한줄 씩 담을 버퍼
+	std::vector<char*> backgroundBuffer; 
 	// 현재 활성화된 메뉴 아이템 인덱스.
 	int currentIndex = 0;
 

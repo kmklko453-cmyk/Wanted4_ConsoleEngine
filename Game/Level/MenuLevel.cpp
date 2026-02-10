@@ -1,4 +1,4 @@
-#include "MenuLevel.h"
+ï»¿#include "MenuLevel.h"
 #include "Game/Game.h"
 #include "Core/Input.h"
 #include "Util/Util.h"
@@ -7,12 +7,13 @@
 
 MenuLevel::MenuLevel()
 {
-	// ¸Ş´º ¾ÆÀÌÅÛ »ı¼º.
+	//FileRead("MainLevel.txt");
+	 //ë©”ë‰´ ì•„ì´í…œ ìƒì„±.
 	items.emplace_back(new MenuItem(
-		"Resume Game",
+		"Game Start",
 		[]()
 		{
-			// ¸Ş´º Åä±Û ÇÔ¼ö È£Ãâ.
+			// ë©”ë‰´ í† ê¸€ í•¨ìˆ˜ í˜¸ì¶œ.
 			Game::Get().ToggleMenu();
 		}
 	));
@@ -21,7 +22,7 @@ MenuLevel::MenuLevel()
 		"Quit Game",
 		[]()
 		{
-			// °ÔÀÓ Á¾·á.
+			// ê²Œì„ ì¢…ë£Œ.
 			Game::Get().QuitEngine();
 		}
 	));
@@ -29,80 +30,141 @@ MenuLevel::MenuLevel()
 
 MenuLevel::~MenuLevel()
 {
-	// ¸Ş´º ¾ÆÀÌÅÛ Á¦°Å.
+	//ë°°ê²½ ë²„í¼ í•´ì œ
+	/*for (char* line : backgroundBuffer)
+	{
+		delete[] line;
+	}
+	backgroundBuffer.clear();*/
+
+	// ê¸°ì¡´ ë©”ë‰´ ì•„ì´í…œ ì œê±°
 	for (MenuItem*& item : items)
 	{
 		delete item;
 		item = nullptr;
 	}
-
-	// ¹è¿­ ÃÊ±âÈ­.
+	//ë°°ì—´ ì´ˆê¸°í™”
 	items.clear();
 }
+
+//void MenuLevel::FileRead(const char* filename)
+//{
+//
+//	char path[2048] = {};
+//	sprintf_s(path, 2048, "../Assets/%s", filename);
+//	// íŒŒì¼ ì—´ê¸°
+//	FILE* file = nullptr;
+//
+//
+//	// ì˜ˆì™¸ ì²˜ë¦¬
+//	if (!file)
+//	{
+//		std::cerr << "Failed to open map file.\n";
+//		__debugbreak();
+//		return;
+//	}
+//
+//	// íŒŒì¼ í¬ê¸° ì½ê¸°
+//	fseek(file, 0, SEEK_END);
+//	size_t fileSize = ftell(file);
+//	rewind(file);
+//
+//	// ë°ì´í„° ì½ê¸°
+//	char* data = new char[fileSize + 1];
+//	size_t readSize = fread(data, sizeof(char), fileSize, file);
+//	data[readSize] = '\0';
+//
+//	// ê¸°ì¡´ ë²„í¼ í•´ì œ
+//	for (char* line : backgroundBuffer)
+//	{
+//		delete[] line;
+//	}
+//	backgroundBuffer.clear();
+//
+//	// ì¤„ ê°œìˆ˜ ê³„ì‚°
+//	int lineCount = 1;
+//	for (size_t i = 0; i < readSize; ++i)
+//	{
+//		if (data[i] == '\n') ++lineCount;
+//	}
+//	backgroundBuffer.reserve(lineCount);
+//
+//	// ì¤„ ì˜ë¼ì„œ ì €ì¥
+//	int start = 0;
+//	for (size_t i = 0; i <= readSize; ++i)
+//	{
+//		if (i == readSize || data[i] == '\n')
+//		{
+//			int len = (int)i - start;
+//			if (len > 0 && data[start + len - 1] == '\r')
+//			{
+//				--len;
+//			}
+//
+//			char* line = new char[len + 1];
+//			memcpy(line, data + start, len);
+//			line[len] = '\0';
+//			backgroundBuffer.emplace_back(line);
+//
+//			start = (int)i + 1;
+//		}
+//	}
+//
+//	delete[] data;
+//	fclose(file);
+//}
 
 void MenuLevel::Tick(float deltaTime)
 {
 	super::Tick(deltaTime);
 
-	// ÀÔ·Â Ã³¸® (¹æÇâÅ° À§/¾Æ·¡Å°, ¿£ÅÍÅ°, ESCÅ°).
-	// ¹è¿­ ±æÀÌ.
+
+	// ì…ë ¥ ì²˜ë¦¬ (ë°©í–¥í‚¤ ìœ„/ì•„ë˜í‚¤, ì—”í„°í‚¤, ESCí‚¤).
+	// ë°°ì—´ ê¸¸ì´.
 	static int length = static_cast<int>(items.size());
 	if (Input::Get().GetKeyDown(VK_UP))
 	{
-		// ÀÎµ¦½º µ¹¸®±â (À§ ¹æÇâÀ¸·Î).
+		// ì¸ë±ìŠ¤ ëŒë¦¬ê¸° (ìœ„ ë°©í–¥ìœ¼ë¡œ).
 		currentIndex = (currentIndex - 1 + length) % length;
 	}
 
 	if (Input::Get().GetKeyDown(VK_DOWN))
 	{
-		// ÀÎµ¦½º µ¹¸®±â.
+		// ì¸ë±ìŠ¤ ëŒë¦¬ê¸°.
 		currentIndex = (currentIndex + 1) % length;
 	}
 
 	if (Input::Get().GetKeyDown(VK_RETURN))
 	{
-		// ¸Ş´º ¾ÆÀÌÅÛÀÌ ÀúÀåÇÑ ÇÔ¼ö Æ÷ÀÎÅÍ È£Ãâ.
+		// ë©”ë‰´ ì•„ì´í…œì´ ì €ì¥í•œ í•¨ìˆ˜ í¬ì¸í„° í˜¸ì¶œ.
 		items[currentIndex]->onSelected();
 	}
 
 	if (Input::Get().GetKeyDown(VK_ESCAPE))
 	{
-		// ¸Ş´º Åä±Û.
+		// ë©”ë‰´ í† ê¸€.
 		Game::Get().ToggleMenu();
 
-		// ÀÎµ¦½º ÃÊ±âÈ­.
+		// ì¸ë±ìŠ¤ ì´ˆê¸°í™”.
 		currentIndex = 0;
 	}
 }
 
 void MenuLevel::Draw()
 {
-	// ¸Ş´º Á¦¸ñ Ãâ·Â.
-	//Util::SetConsolePosition(Vector2::Zero);
-	//Util::SetConsoleTextColor(Color::White);
-	//
-	//// ÅØ½ºÆ® Ãâ·Â.
-	//std::cout << "Sokoban Game\n\n";
-
-	Renderer::Get().Submit("Sokoban Game", Vector2::Zero);
-
-	// ¸Ş´º ¾ÆÀÌÅÛ Ãâ·Â.
-	for (int ix = 0; ix < static_cast<int>(items.size()); ++ix)
+	// ë°°ê²½ ë¨¼ì € ì¶œë ¥
+	/*for (int y = 0; y < (int)backgroundBuffer.size(); ++y)
 	{
-		// ¾ÆÀÌÅÛ »ö»ó È®ÀÎ (¼±ÅÃµÆ´ÂÁö ¿©ºÎ).
-		Color textColor =
-			(ix == currentIndex) ? selectedColor : unselectedColor;
+		Renderer::Get().Submit(backgroundBuffer[y], Vector2(0, y));
+	}*/
 
-		Renderer::Get().Submit(
-			items[ix]->text,
-			Vector2(0, 2 + ix),
-			textColor
-		);
+	// ê¸°ì¡´ ë©”ë‰´ íƒ€ì´í‹€/ì•„ì´í…œ ì¶œë ¥
+	Renderer::Get().Submit("Console Basketball Association ", Vector2(35,13));
 
-		// »ö»ó ¼³Á¤.
-		//Util::SetConsoleTextColor(textColor);
-
-		// ÅØ½ºÆ® Ãâ·Â.
-		//std::cout << items[ix]->text << "\n";
+	for (int ix = 0; ix < (int)items.size(); ++ix)
+	{
+		Color textColor = (ix == currentIndex) ? selectedColor : unselectedColor;
+		Renderer::Get().Submit(items[ix]->text, Vector2(45, 15 + ix), textColor);
 	}
+
 }

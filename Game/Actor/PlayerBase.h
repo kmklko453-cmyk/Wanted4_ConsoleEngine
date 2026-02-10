@@ -25,7 +25,7 @@ protected:
 	virtual void TryPassToMate(int index);
 
 	//수비시 포지션 교체 함수
-	virtual void  ChangeDepensePosition(int index);
+	virtual void  ChangeDefensePosition(int index);
 
 	
 

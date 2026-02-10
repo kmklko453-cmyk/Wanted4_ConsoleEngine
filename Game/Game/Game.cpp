@@ -12,8 +12,8 @@ Game::Game()
 	instance = this;
 
 	// 두 레벨 생성 및 배열에 추가.
-	levels.emplace_back(new CourtLevel());
 	levels.emplace_back(new MenuLevel());
+	levels.emplace_back(new CourtLevel());
 
 	// 시작 상태(레벨) 설정.
 	state = State::GamePlay;

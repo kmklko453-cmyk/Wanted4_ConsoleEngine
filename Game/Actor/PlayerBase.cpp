@@ -81,7 +81,7 @@ void PlayerBase::TryPassToMate(int index)
 	ball[0]->setTp(bP, teamMatePosition);
 }
 
-void PlayerBase::ChangeDepensePosition(int index)
+void PlayerBase::ChangeDefensePosition(int index)
 {
 	Level* level = GetOwner();
 	if (!level) return;

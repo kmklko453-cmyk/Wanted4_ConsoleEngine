@@ -45,7 +45,6 @@ void Ball::Tick(float deltaTime)
 	{
 		
 		SetPosition(ownerActor->GetPosition());
-		//ResolveContactOwnership();
 		
 	}
 
@@ -81,56 +80,4 @@ void Ball::Tick(float deltaTime)
 		SetPosition(ToVector2(posBf));
 		return;
 	}
-}
-
-void Ball::ResolveContactOwnership()
-{
-
-	Level* level = GetOwner();
-	if (!level) return;
-
-	std::vector<PlayerBase*> players;
-	std::vector<TeamMate*> mates;
-	level->GetActorInstance<TeamMate>(mates);
-	level->GetActorInstance<PlayerBase>(players);
-
-	
-	for (PlayerBase* player : players)
-	{
-		if (!player || player == ownerActor) continue;
-		
-		if (TestIntersect(player))
-		{
-			SetOwnActor(player);
-			SetLastPlayer(player);
-			targetPos = Vector2::Zero;
-		
-			return;
-		}
-	}
-
-	for (TeamMate* mate : mates)
-	{
-		if (!mate || mate == ownerActor) continue;
-		PlayerBase* teamPlayer = nullptr;
-		for (PlayerBase* player : players)
-		{
-			if (player && player->GetColor() == mate->GetColor())
-			{
-				teamPlayer = player;
-				break;
-			}
-		}
-		if (teamPlayer)
-		{
-			SetOwnActor(teamPlayer);
-			// lastPlayer는 패스/슛 시점에 유지(스왑 로직용)
-
-			inFlight = false;
-			targetPos = Vector2::Zero;
-	
-			return;
-		}
-	}
-	
 }

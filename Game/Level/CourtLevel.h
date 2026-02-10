@@ -34,8 +34,8 @@ private:
 	void ShowScore();
 
 private:
-	// 획득해야하는 목표 점수.
-	int targetScore = 0;
+	//공수 변경
+	int lastScoringTeam = 0;
 
 	//점수 변수
 	int score1 = 0;

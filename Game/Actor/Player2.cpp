@@ -47,23 +47,23 @@ void Player2::Tick(float deltaTime)
 	if (Input::Get().GetKeyDown('7'))
 	{
 		TryPassToMate(2);
-		ChangeDepensePosition(2);
+		ChangeDefensePosition(2);
 	}
 	if (Input::Get().GetKeyDown('8'))
 	{
 		TryPassToMate(3);
-		ChangeDepensePosition(3);
+		ChangeDefensePosition(3);
 	}
 	if (Input::Get().GetKeyDown('9'))
 	{
 		TryPassToMate(6);
-		ChangeDepensePosition(6);
+		ChangeDefensePosition(6);
 	}
 
 	if (Input::Get().GetKeyDown('0'))
 	{
 		TryPassToMate(7);
-		ChangeDepensePosition(7);
+		ChangeDefensePosition(7);
 	}
 
 	//// 인터페이스 확인.

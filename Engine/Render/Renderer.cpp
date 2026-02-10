@@ -210,6 +210,13 @@ namespace Wanted
 		renderQueue.emplace_back(command);
 	}
 
+	void Renderer::PresentImmediately()
+	{
+		Draw();
+		GetCurrentBuffer()->Draw(frame->charInfoArray);
+		Present();
+	}
+
 	void Renderer::Present()
 	{
 		// 버퍼 교환.
