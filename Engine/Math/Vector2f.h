@@ -1,3 +1,5 @@
+#pragma once
+
 namespace Wanted
 {
     struct Vector2f

@@ -153,41 +153,41 @@ void SokobanLevel::LoadMap(const char* filename)
 			break;
 
 		case '1':
-			AddNewActor(new TeamMate("1", position, Color::Red));
+			AddNewActor(new TeamMate("1", position, Color::Red,Vector2(80,5)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '2':
-			AddNewActor(new TeamMate("2", position, Color::Red));
+			AddNewActor(new TeamMate("2", position, Color::Red, Vector2(68, 8)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '3':
-			AddNewActor(new TeamMate("3", position, Color::Red));
+			AddNewActor(new TeamMate("3", position, Color::Red, Vector2(62, 24)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case '4':
-			AddNewActor(new TeamMate("4", position, Color::Red));
+			AddNewActor(new TeamMate("4", position, Color::Red, Vector2(75, 26)));
 			AddNewActor(new Ground(position));
 			break;
 		case 's':
-			AddNewActor(new TeamMate("1", position, Color::Green));
+			AddNewActor(new TeamMate("1", position, Color::Green, Vector2(5, 80)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case 'h':
-			AddNewActor(new TeamMate("2", position, Color::Green));
+			AddNewActor(new TeamMate("2", position, Color::Green, Vector2(5, 80)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case 'i':
-			AddNewActor(new TeamMate("3", position, Color::Green));
+			AddNewActor(new TeamMate("3", position, Color::Green, Vector2(5, 80)));
 			AddNewActor(new Ground(position));
 			break;
 
 		case 'n':
-			AddNewActor(new TeamMate("4", position, Color::Green));
+			AddNewActor(new TeamMate("4", position, Color::Green, Vector2(5, 80)));
 			AddNewActor(new Ground(position));
 			break;
 
@@ -327,25 +327,30 @@ void SokobanLevel::ChangePosition()
 
   void SokobanLevel::CheckGameClear()
   {
-	  // 타겟 위에 있는 박스의 수 검증.
-	  int currentScore = 0;
+	  
 
 	  // 배열에 박스 및 타겟 저장.
 	  std::vector<Ball*> ball;
 	  std::vector<Target*> targets;
 	  std::vector<PlayerBase*> players;
+	  std::vector<TeamMate*> teamMates;
 
 	  GetActorInstance<Ball>(ball);
 	  GetActorInstance<Target>(targets);
 	  GetActorInstance<PlayerBase> (players);
+	  GetActorInstance<TeamMate>(teamMates);
 
-	  if (ball.empty() || targets.empty())return;
+	  if (ball.empty() || targets.empty()||teamMates.empty()||players.empty())return;
 
 	  // 두 액터의 위치가 같으면 점수 +.
 	  if (ball[0]->TestIntersect(targets[0]))
 	  {
 		  score1 += 1;
 		  ball[0]->SetOwnActor(players[0]);
+		  for (TeamMate* tm : teamMates)
+		  {
+			  tm->setTp(tm->GetH(), tm->GetA());
+		  }
 	  }
 	  else if (ball[0]->TestIntersect(targets[1]))
 	  {
